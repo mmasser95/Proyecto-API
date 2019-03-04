@@ -1,0 +1,25 @@
+{
+  "name": "proyecto-final-api",
+  "version": "1.0.0",
+  "description": null,
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "bcrypt-node": "0.1.0",
+    "body-parser": "1.18.3",
+    "cors": "2.8.5",
+    "express": "4.16.4",
+    "jwt-simple": "0.5.5",
+    "moment": "2.24.0",
+    "mongoose": "5.4.10",
+    "morgan": "1.9.1",
+    "nodemailer": "5.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "1.18.4",
+    "jest": "^22.0.4"
+  },
+  "keywords": ["final", "api", "proyecto-final", "nodejs", "proyecto"]
+}
