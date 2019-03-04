@@ -21,5 +21,11 @@
     "nodemon": "1.18.4",
     "jest": "^22.0.4"
   },
-  "keywords": ["final", "api", "proyecto-final", "nodejs", "proyecto"]
+  "keywords": [
+    "final",
+    "api",
+    "proyecto-final",
+    "nodejs",
+    "proyecto"
+  ]
 }
