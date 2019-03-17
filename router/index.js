@@ -13,6 +13,7 @@ const adminCtrl = require("../controladores/admin");
 const userCtrl = require("../controladores/user");
 const ofertaCtrl = require("../controladores/oferta");
 const pedidoCtrl = require("../controladores/pedido");
+const peticionCtrl = require('../controladores/peticiones');
 
 //Libro
 router.get("/libro", libroCtrl.getLibros);
@@ -93,5 +94,12 @@ router.get("/pedido/user/:userId", pedidoCtrl.getPedidosUser);
 router.post("/pedido", pedidoCtrl.postPedido);
 router.put("/pedido/:pedidoId", pedidoCtrl.putPedido);
 router.delete("/pedido/:pedidoId", pedidoCtrl.deletePedido);
+
+//Peticion
+router.get('/peticion', peticionCtrl.getPeticiones);
+router.get('/peticion/:peticionId',peticionCtrl.getPeticion);
+router.post('/peticion', peticionCtrl.postPeticion);
+router.put('/peticion/:peticionId',peticionCtrl.putPeticion);
+router.delete('/peticion/:peticionId',peticionCtrl.deletePeticion);
 
 module.exports = router;
