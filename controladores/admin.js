@@ -35,7 +35,7 @@ function postAdmin(req, res) {
   });
   admin.save((err, adminsaved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    return res.status(200).send({ adminsaved });
+    return res.status(200).send({ message:`Se ha registrado correctamente` });
   });
 }
 

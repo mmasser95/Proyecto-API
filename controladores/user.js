@@ -49,19 +49,24 @@ function postUser(req, res) {
   });
   user.save((err, usersaved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    fs.readFile(path.join(__dirname,'../emails/registro.html'), (err, data) => {
-      if (err)
+    fs.readFile(
+      path.join(__dirname, '../emails/registro.html'),
+      (err, data) => {
+        if (err)
+          return res
+            .status(500)
+            .send({ message: `Error al abrir el archivo HTML ${err}` });
+        //data = data.replace('|USERNAME|', usersaved.username);
+        let mail = servicios.sendEmail(
+          usersaved.email,
+          'Registro completado',
+          data
+        );
         return res
-          .status(500)
-          .send({ message: `Error al abrir el archivo HTML ${err}` });
-      //data = data.replace('|USERNAME|', usersaved.username);
-      let mail = servicios.sendEmail(
-        usersaved.email,
-        'Registro completado',
-        data
-      );
-      return res.status(200).send({ usersaved, mail });
-    });
+          .status(200)
+          .send({ message: `Se ha registrado correctamente`, mail });
+      }
+    );
   });
 }
 
@@ -85,7 +90,7 @@ function postDireccionUser(req, res) {
     console.log(user);
     User.findOneAndUpdate({ _id: post.id }, user, (err, userupdated) => {
       if (err) return res.status(500).send({ message: `Error ${err}` });
-      return res.status(200).send({ userupdated });
+      return res.status(200).send({ message: `Información actualizada` });
     });
   });
 }
