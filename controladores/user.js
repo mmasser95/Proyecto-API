@@ -48,7 +48,7 @@ function postUser(req, res) {
   });
   user.save((err, usersaved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    fs.readFile(__dirname + '../emails/registro.html', (err, data) => {
+    fs.readFile('../emails/registro.html', (err, data) => {
       if (err)
         return res
           .status(500)
