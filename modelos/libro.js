@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const libroSchema = Schema({
@@ -14,7 +14,7 @@ const libroSchema = Schema({
   Paginas: Number,
   Autor: Schema.Types.ObjectId,
   Fecha_Publicacion: Schema.Types.Date,
-  Fecha_Edicion: Schema.Types.Date
+  Fecha_Edicion: Schema.Types.Date,
 });
 
-module.exports = mongoose.model("Libro", libroSchema);
+module.exports = mongoose.model('Libro', libroSchema);

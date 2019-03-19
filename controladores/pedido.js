@@ -1,4 +1,4 @@
-const Pedido = require("../modelos/pedido");
+const Pedido = require('../modelos/pedido');
 
 function getPedidos(req, res) {
   Pedido.find({}, (err, pedidos) => {
@@ -42,7 +42,7 @@ function postPedido(req, res) {
     total: post.total,
     idUser: post.idUser,
     direccion: post.direccion,
-    items: post.items
+    items: post.items,
   });
   pedido.save((err, pedidosaved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
@@ -74,5 +74,5 @@ module.exports = {
   getPedidosUser,
   postPedido,
   putPedido,
-  deletePedido
+  deletePedido,
 };

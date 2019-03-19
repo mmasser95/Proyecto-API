@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const autorSchema = Schema({
   Nombre: String,
   Apellidos: String,
   Fecha_nacimiento: Schema.Types.Date,
-  Bio: String
+  Bio: String,
 });
 
-module.exports = mongoose.model("Autor", autorSchema);
+module.exports = mongoose.model('Autor', autorSchema);

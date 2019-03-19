@@ -1,7 +1,7 @@
-const Oferta = require("../modelos/oferta");
+const Oferta = require('../modelos/oferta');
 
 function getOfertas(req, res) {
-  console.log("GET /api/oferta");
+  console.log('GET /api/oferta');
   Oferta.find({}, (err, ofertas) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!ofertas.length)
@@ -33,13 +33,13 @@ function getOfertasLibro(req, res) {
 
 function postOferta(req, res) {
   let post = req.body;
-  console.log("POST /api/oferta");
+  console.log('POST /api/oferta');
   let oferta = new Oferta({
     id_user: post.id_user,
     id_libro: post.id_libro,
     importe: post.importe,
     moneda: post.moneda,
-    estado: post.estado
+    estado: post.estado,
   });
   oferta.save((err, ofertas) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
@@ -73,5 +73,5 @@ module.exports = {
   getOfertasLibro,
   postOferta,
   putOferta,
-  deleteOferta
+  deleteOferta,
 };

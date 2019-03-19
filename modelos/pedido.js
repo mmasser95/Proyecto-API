@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let pedidoSchema = Schema({
@@ -7,13 +7,13 @@ let pedidoSchema = Schema({
       libroId: { type: Schema.Types.ObjectId, required: true },
       cantidad: Number,
       precioUnidad: Number,
-      precioTotal: Number
-    }
+      precioTotal: Number,
+    },
   ],
   total: Number,
   idUser: { type: Schema.Types.ObjectId, required: true },
   direccion: { type: Schema.Types.ObjectId, required: true },
-  pagado: Boolean
+  pagado: Boolean,
 });
 
-module.exports = mongoose.model("Pedido", pedidoSchema);
+module.exports = mongoose.model('Pedido', pedidoSchema);

@@ -14,7 +14,7 @@ const peticionSchema = Schema({
   Fecha_Publicacion: Schema.Types.Date,
   Fecha_Edicion: Schema.Types.Date,
   Estado: Boolean,
-  User: Schema.Types.ObjectId
+  User: Schema.Types.ObjectId,
 });
 
 module.exports = mongoose.model('Peticion', peticionSchema);

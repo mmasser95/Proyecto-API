@@ -1,13 +1,13 @@
-const Autor = require("../modelos/autor");
+const Autor = require('../modelos/autor');
 
 function getAutores(req, res) {
-  console.log("GET /api/autor");
+  console.log('GET /api/autor');
   Autor.find({}, (err, autores) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!autores.length)
       return res
         .status(404)
-        .send({ message: "No se han encontrado resultados" });
+        .send({ message: 'No se han encontrado resultados' });
     console.log(autores);
     return res.status(200).send({ autores });
   });
@@ -35,7 +35,7 @@ function buscarAutorNombre(req, res, next) {
 function buscarAutorApellido(req, res) {
   let autorApellido = req.params.buscar;
   Autor.find(
-    { Apellidos: new RegExp(`^.*${autorApellido}.*$`, "img") },
+    { Apellidos: new RegExp(`^.*${autorApellido}.*$`, 'img') },
     (err, autor) => {
       if (err) return res.status(500).send({ message: `Error ${err}` });
       if (autor.length == 0)
@@ -47,13 +47,13 @@ function buscarAutorApellido(req, res) {
 
 function postAutor(req, res) {
   let post = req.body;
-  console.log("POST /api/autor");
+  console.log('POST /api/autor');
   console.log(post);
   let autor = new Autor({
     Nombre: post.Nombre,
     Apellidos: post.Apellidos,
     Fecha_nacimiento: post.Fecha_nacimiento,
-    Bio: post.Bio
+    Bio: post.Bio,
   });
   autor.save((err, autorsaved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
@@ -77,7 +77,7 @@ function deleteAutor(req, res) {
   console.log(`DELETE /api/autor/${autorId}`);
   Autor.findByIdAndDelete(autorId, (err, res) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    return res.status(200).send({ message: "Borrado" });
+    return res.status(200).send({ message: 'Borrado' });
   });
 }
 
@@ -88,5 +88,5 @@ module.exports = {
   buscarAutorApellido,
   postAutor,
   putAutor,
-  deleteAutor
+  deleteAutor,
 };

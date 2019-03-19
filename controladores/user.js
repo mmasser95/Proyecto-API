@@ -1,9 +1,10 @@
-const User = require("../modelos/user");
-const servicios = require("../servicios/");
-const bcrypt = require("bcrypt-node");
+const User = require('../modelos/user');
+const servicios = require('../servicios/');
+const bcrypt = require('bcrypt-node');
+const fs = require('fs');
 
 function getUsers(req, res) {
-  console.log("GET /api/user");
+  console.log('GET /api/user');
   User.find({}, (err, users) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!users.length)
@@ -38,27 +39,34 @@ function getUser(req, res) {
 
 function postUser(req, res) {
   let post = req.body;
-  console.log("POST /api/user");
+  console.log('POST /api/user');
   console.log(post);
   let user = new User({
     email: post.email,
     username: post.username,
-    pass: post.pass
+    pass: post.pass,
   });
   user.save((err, usersaved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    let mail = servicios.sendEmail(
-      usersaved.email,
-      "Registro completado",
-      "<h1>Registro correcto</h1>"
-    );
+    fs.readFile(__dirname + '../emails/registro.html', (err, data) => {
+      if (err)
+        return res
+          .status(500)
+          .send({ message: `Error al abrir el archivo HTML ${err}` });
+      data = data.replace('|USERNAME|', usersaved.username);
+      let mail = servicios.sendEmail(
+        usersaved.email,
+        'Registro completado',
+        data
+      );
+    });
     return res.status(200).send({ usersaved, mail });
   });
 }
 
 function postDireccionUser(req, res) {
   let post = req.body;
-  console.log("POST /api/user/direccion");
+  console.log('POST /api/user/direccion');
   console.log(post);
   User.findOne({ _id: post.id }, (err, user) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
@@ -71,7 +79,7 @@ function postDireccionUser(req, res) {
       numero: post.numero,
       piso: post.piso,
       puerta: post.puerta,
-      escalera: post.escalera
+      escalera: post.escalera,
     });
     console.log(user);
     User.findOneAndUpdate({ _id: post.id }, user, (err, userupdated) => {
@@ -100,8 +108,8 @@ function putDireccionUser(req, res) {
         numero: update.numero,
         piso: update.piso,
         puerta: update.puerta,
-        escalera: update.escalera
-      }
+        escalera: update.escalera,
+      },
     ]);
     user.save((err, usersaved) => {
       if (err) return res.status(500).send({ message: `Error ${err}` });
@@ -177,7 +185,7 @@ function deleteDireccionUser(req, res) {
 function signIn(req, res) {
   let post = req.body;
   let query = User.findOne({ email: post.email });
-  query.select("email nombre pass _id");
+  query.select('email nombre pass _id');
   query.exec((err, user) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!user) return res.status(404).send({ message: `El usuario no existe` });
@@ -188,7 +196,7 @@ function signIn(req, res) {
       return res.status(200).send({
         token: servicios.createToken(user),
         idUser: user._id,
-        message: "Se ha logueado correctamente"
+        message: 'Se ha logueado correctamente',
       });
     });
   });
@@ -205,5 +213,5 @@ module.exports = {
   getDireccionesUser,
   postDireccionUser,
   putDireccionUser,
-  deleteDireccionUser
+  deleteDireccionUser,
 };

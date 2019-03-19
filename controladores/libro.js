@@ -1,7 +1,7 @@
-const Libro = require("../modelos/libro");
+const Libro = require('../modelos/libro');
 
 function getLibros(req, res) {
-  console.log("GET /api/libro");
+  console.log('GET /api/libro');
   Libro.find({}, (err, libros) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!libros)
@@ -43,7 +43,7 @@ function getLibroTitulo(req, res, next) {
   let libroTitulo = req.params.buscar;
   console.log(`GET /api/libro/buscar/${libroTitulo}`);
   Libro.find(
-    { Titulo: new RegExp(`^.*${libroTitulo}.*$`, "img") },
+    { Titulo: new RegExp(`^.*${libroTitulo}.*$`, 'img') },
     (err, libroo) => {
       if (err) return res.status(500).send({ message: `Error ${err}` });
       if (libroo.length == 0) return next();
@@ -56,7 +56,7 @@ function getLibroEditorial(req, res) {
   let libroEditorial = req.params.buscar;
   console.log(`GET /api/libro/buscar/${libroEditorial}`);
   Libro.find(
-    { Editorial: new RegExp(`^.*${libroEditorial}.*$`, "img") },
+    { Editorial: new RegExp(`^.*${libroEditorial}.*$`, 'img') },
     (err, libro) => {
       if (err) return res.status(500).send({ message: `Error ${err}` });
       if (libro.length == 0)
@@ -70,7 +70,7 @@ function getLibroEditorial(req, res) {
 
 function postLibro(req, res) {
   let post = req.body;
-  console.log("POST /api/libro");
+  console.log('POST /api/libro');
   console.log(post);
   let libro = new Libro({
     ISBN: post.ISBN,
@@ -83,7 +83,7 @@ function postLibro(req, res) {
     Sinopsis: post.Sinopsis,
     Paginas: post.Paginas,
     Fecha_Publicacion: post.Fecha_Publicacion,
-    Fecha_Edicion: post.Fecha_Edicion
+    Fecha_Edicion: post.Fecha_Edicion,
   });
   libro.save((err, librosaved) => {
     if (err)
@@ -122,5 +122,5 @@ module.exports = {
   getLibroISBN,
   postLibro,
   putLibro,
-  deleteLibro
+  deleteLibro,
 };

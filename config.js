@@ -4,5 +4,5 @@ module.exports = {
   SECRET_TOKEN: process.env.TOKEN,
   emailserver: process.env.EMAILSERVER,
   emailuser: process.env.EMAILUSER,
-  emailpass: process.env.EMAILPASS
+  emailpass: process.env.EMAILPASS,
 };

@@ -1,15 +1,15 @@
-const servicios = require("../servicios/");
-const Admin = require("../modelos/admin");
-const bcrypt = require("bcrypt-node");
+const servicios = require('../servicios/');
+const Admin = require('../modelos/admin');
+const bcrypt = require('bcrypt-node');
 
 function getAdmins(req, res) {
-  console.log("GET /api/admin");
+  console.log('GET /api/admin');
   Admin.find({}, (err, admins) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!admins.length)
       return res
         .status(400)
-        .send({ message: "No se han encontrado resultados" });
+        .send({ message: 'No se han encontrado resultados' });
     return res.status(200).send({ admins });
   });
 }
@@ -26,12 +26,12 @@ function getAdmin(req, res) {
 
 function postAdmin(req, res) {
   let post = req.body;
-  console.log("POST /api/admin");
+  console.log('POST /api/admin');
   console.log(post);
   let admin = new Admin({
     email: post.email,
     username: post.username,
-    pass: post.pass
+    pass: post.pass,
   });
   admin.save((err, adminsaved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
@@ -55,14 +55,14 @@ function deleteAdmin(req, res) {
   console.log(`DELETE /api/admin/${adminId}`);
   Admin.findByIdAndDelete(adminId, (err, res) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    return res.status(200).send({ message: "Borrado" });
+    return res.status(200).send({ message: 'Borrado' });
   });
 }
 
 function signIn(req, res) {
   let bdy = req.body;
   let query = Admin.findOne({ email: bdy.email });
-  query.select("email nombre pass _id");
+  query.select('email nombre pass _id');
   query.exec((err, admin) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!admin)
@@ -74,7 +74,7 @@ function signIn(req, res) {
       return res.status(200).send({
         token: servicios.createAdminToken(admin),
         idAdmin: admin._id,
-        message: "Se ha logueado correctamente"
+        message: 'Se ha logueado correctamente',
       });
     });
   });
@@ -86,5 +86,5 @@ module.exports = {
   postAdmin,
   putAdmin,
   deleteAdmin,
-  signIn
+  signIn,
 };

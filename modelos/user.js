@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt-node");
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-node');
 const Schema = mongoose.Schema;
 
 let userSchema = Schema({
@@ -13,14 +13,14 @@ let userSchema = Schema({
       numero: Number,
       puerta: String,
       escalera: String,
-      piso: String
-    }
-  ]
+      piso: String,
+    },
+  ],
 });
 
-userSchema.pre("save", function(next) {
+userSchema.pre('save', function(next) {
   let user = this;
-  if (!user.isModified("pass")) return next();
+  if (!user.isModified('pass')) return next();
   bcrypt.genSalt(10, (err, salt) => {
     if (err) return next();
     bcrypt.hash(user.pass, salt, null, (err, hash) => {
@@ -30,11 +30,11 @@ userSchema.pre("save", function(next) {
     });
   });
 });
-userSchema.pre("update", function(next) {
+userSchema.pre('update', function(next) {
   let user = this;
 
   console.log(user);
-  if (!user.isModified("pass")) return next();
+  if (!user.isModified('pass')) return next();
   bcrypt.genSalt(10, (err, salt) => {
     if (err) return next();
     bcrypt.hash(user.pass, salt, null, (err, hash) => {
@@ -44,4 +44,4 @@ userSchema.pre("update", function(next) {
     });
   });
 });
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);

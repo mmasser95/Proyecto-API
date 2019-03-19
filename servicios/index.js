@@ -1,16 +1,16 @@
-let nodemailer = require("nodemailer");
-const jwt = require("jwt-simple");
-const moment = require("moment");
-const config = require("../config");
+let nodemailer = require('nodemailer');
+const jwt = require('jwt-simple');
+const moment = require('moment');
+const config = require('../config');
 
 function createToken(user) {
   const payload = {
     sub: user._id,
     iat: moment().unix(),
-    tipo: "user",
+    tipo: 'user',
     exp: moment()
-      .add(14, "days")
-      .unix()
+      .add(14, 'days')
+      .unix(),
   };
   return jwt.encode(payload, config.SECRET_TOKEN);
 }
@@ -18,11 +18,11 @@ function createToken(user) {
 function createAdminToken(user) {
   const payload = {
     sub: user._id,
-    tipo: "admin",
+    tipo: 'admin',
     iat: moment().unix(),
     exp: moment()
-      .add(14, "days")
-      .unix()
+      .add(14, 'days')
+      .unix(),
   };
   return jwt.encode(payload, config.SECRET_TOKEN);
 }
@@ -34,14 +34,14 @@ function decodeToken(token) {
       if (payload.exp <= moment().unix()) {
         resolve({
           status: 401,
-          message: `El token ha expirado`
+          message: `El token ha expirado`,
         });
       }
       resolve(payload);
     } catch (e) {
       reject({
         status: 500,
-        message: `Token invalido`
+        message: `Token invalido`,
       });
     }
   });
@@ -53,15 +53,15 @@ function sendEmail(to, sub, message) {
     service: config.emailserver,
     auth: {
       user: config.emailuser,
-      pass: config.emailpass
-    }
+      pass: config.emailpass,
+    },
   });
 
   const opt = {
     from: config.emailuser,
     to: to,
     subject: sub,
-    html: message
+    html: message,
   };
 
   transporter.sendMail(opt, (err, res) => {
@@ -74,5 +74,5 @@ module.exports = {
   createToken,
   createAdminToken,
   decodeToken,
-  sendEmail
+  sendEmail,
 };
