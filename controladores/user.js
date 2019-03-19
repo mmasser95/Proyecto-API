@@ -54,7 +54,7 @@ function postUser(req, res) {
         return res
           .status(500)
           .send({ message: `Error al abrir el archivo HTML ${err}` });
-      data = data.replace('|USERNAME|', usersaved.username);
+      //data = data.replace('|USERNAME|', usersaved.username);
       let mail = servicios.sendEmail(
         usersaved.email,
         'Registro completado',
