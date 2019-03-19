@@ -59,8 +59,8 @@ function postUser(req, res) {
         'Registro completado',
         data
       );
+      return res.status(200).send({ usersaved, mail });
     });
-    return res.status(200).send({ usersaved, mail });
   });
 }
 
