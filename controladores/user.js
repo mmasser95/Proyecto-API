@@ -2,6 +2,7 @@ const User = require('../modelos/user');
 const servicios = require('../servicios/');
 const bcrypt = require('bcrypt-node');
 const fs = require('fs');
+const path = require('path');
 
 function getUsers(req, res) {
   console.log('GET /api/user');
@@ -48,7 +49,7 @@ function postUser(req, res) {
   });
   user.save((err, usersaved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    fs.readFile('../emails/registro.html', (err, data) => {
+    fs.readFile(path.join(__dirname,'../emails/registro.html'), (err, data) => {
       if (err)
         return res
           .status(500)
