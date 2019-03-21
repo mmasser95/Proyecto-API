@@ -213,6 +213,7 @@ function verificarUserLogueado(req, res) {
   servicios
     .decodeToken(post.token)
     .then((result) => {
+      console.log(result)
       return res
         .status(200)
         .send({
