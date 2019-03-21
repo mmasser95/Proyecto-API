@@ -54,6 +54,7 @@ router.delete(
 router.get('/admin', auth.isAuth, auth.isAdmin, adminCtrl.getAdmins);
 router.get('/admin/:adminId', auth.isAuth, auth.isAdmin, adminCtrl.getAdmin);
 router.post('/admin', auth.isAuth, auth.isAdmin, adminCtrl.postAdmin);
+router.post('/admin/verificar', adminCtrl.verificarAdminLogueado);
 router.put('/admin/:adminId', auth.isAuth, auth.isAdmin, adminCtrl.putAdmin);
 router.delete(
   '/admin/:adminId',
@@ -64,14 +65,15 @@ router.delete(
 router.post('/admin/signin', adminCtrl.signIn);
 
 //User
-router.get('/user', /*auth.isAuth, auth.isAdmin,*/ userCtrl.getUsers);
+router.get('/user', auth.isAuth, auth.isAdmin, userCtrl.getUsers);
 router.get('/user/:userId', auth.isAuth, userCtrl.getUser);
 router.get('/user/:userId/direccion', auth.isAuth, userCtrl.getDireccionesUser);
 router.post('/user', userCtrl.postUser);
 router.post('/user/signin', userCtrl.signIn);
 router.post('/user/direccion', auth.isAuth, userCtrl.postDireccionUser);
-router.put('/user/:userId', /*auth.isAuth,*/ userCtrl.putUser);
-router.put('/user/:userEmail', /*auth.isAuth,*/ userCtrl.putUserEmail);
+router.post('/user/verificar', userCtrl.verificarUserLogueado);
+router.put('/user/:userId', auth.isAuth, userCtrl.putUser);
+router.put('/user/:userEmail', auth.isAuth, userCtrl.putUserEmail);
 router.put(
   '/user/:userId/direccion/:direccionId',
   auth.isAuth,
@@ -80,26 +82,26 @@ router.put(
 router.delete('/user/:userId', auth.isAuth, userCtrl.deleteUser);
 
 //Oferta
-router.get('/oferta', ofertaCtrl.getOfertas);
-router.get('/oferta/:ofertaId', ofertaCtrl.getOferta);
-router.get('/oferta/libro/:libroId', ofertaCtrl.getOfertasLibro);
-router.post('/oferta', ofertaCtrl.postOferta);
-router.put('/oferta/:ofertaId', ofertaCtrl.putOferta);
-router.delete('/oferta/:ofertaId', ofertaCtrl.deleteOferta);
+router.get('/oferta', auth.isAuth, ofertaCtrl.getOfertas);
+router.get('/oferta/:ofertaId', auth.isAuth, ofertaCtrl.getOferta);
+router.get('/oferta/libro/:libroId', auth.isAuth, ofertaCtrl.getOfertasLibro);
+router.post('/oferta', auth.isAuth, ofertaCtrl.postOferta);
+router.put('/oferta/:ofertaId', auth.isAuth, ofertaCtrl.putOferta);
+router.delete('/oferta/:ofertaId', auth.isAuth, ofertaCtrl.deleteOferta);
 
 //Pedido
-router.get('/pedido', pedidoCtrl.getPedidos);
-router.get('/pedido/:pedidoId', pedidoCtrl.getPedido);
-router.get('/pedido/user/:userId', pedidoCtrl.getPedidosUser);
-router.post('/pedido', pedidoCtrl.postPedido);
+router.get('/pedido', auth.isAuth, pedidoCtrl.getPedidos);
+router.get('/pedido/:pedidoId', auth.isAuth, pedidoCtrl.getPedido);
+router.get('/pedido/user/:userId', auth.isAuth, pedidoCtrl.getPedidosUser);
+router.post('/pedido', auth.isAuth, pedidoCtrl.postPedido);
 router.put('/pedido/:pedidoId', pedidoCtrl.putPedido);
 router.delete('/pedido/:pedidoId', pedidoCtrl.deletePedido);
 
 //Peticion
-router.get('/peticion', peticionCtrl.getPeticiones);
-router.get('/peticion/:peticionId', peticionCtrl.getPeticion);
-router.post('/peticion', peticionCtrl.postPeticion);
-router.put('/peticion/:peticionId', peticionCtrl.putPeticion);
-router.delete('/peticion/:peticionId', peticionCtrl.deletePeticion);
+router.get('/peticion', auth.isAuth, peticionCtrl.getPeticiones);
+router.get('/peticion/:peticionId', auth.isAuth, peticionCtrl.getPeticion);
+router.post('/peticion', auth.isAuth, peticionCtrl.postPeticion);
+router.put('/peticion/:peticionId', auth.isAuth, peticionCtrl.putPeticion);
+router.delete('/peticion/:peticionId', auth.isAuth, auth.isAdmin, peticionCtrl.deletePeticion);
 
 module.exports = router;

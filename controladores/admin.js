@@ -35,7 +35,7 @@ function postAdmin(req, res) {
   });
   admin.save((err, adminsaved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    return res.status(200).send({ message:`Se ha registrado correctamente` });
+    return res.status(200).send({ message: `Se ha registrado correctamente` });
   });
 }
 
@@ -80,6 +80,21 @@ function signIn(req, res) {
   });
 }
 
+function verificarAdminLogueado(req, res) {
+  let post = req.body;
+  servicios
+    .decodeToken(post.token)
+    .then((result) => {
+      return res.status(200).send({
+        token: servicios.createAdminToken({ _id: result.sub }),
+        message: `Token renovado`,
+      });
+    })
+    .catch((err) => {
+      return res.status(err.status).send(err.message);
+    });
+}
+
 module.exports = {
   getAdmins,
   getAdmin,
@@ -87,4 +102,5 @@ module.exports = {
   putAdmin,
   deleteAdmin,
   signIn,
+  verificarAdminLogueado,
 };

@@ -208,6 +208,23 @@ function signIn(req, res) {
   });
 }
 
+function verificarUserLogueado(req, res) {
+  let post = req.body;
+  servicios
+    .decodeToken(post.token)
+    .then((result) => {
+      return res
+        .status(200)
+        .send({
+          token: servicios.createToken({ _id: result.sub }),
+          message: `Token renovado`,
+        });
+    })
+    .catch((err) => {
+      return res.status(err.status).send(err.message);
+    });
+}
+
 module.exports = {
   getUsers,
   getUser,
@@ -220,4 +237,5 @@ module.exports = {
   postDireccionUser,
   putDireccionUser,
   deleteDireccionUser,
+  verificarUserLogueado,
 };
