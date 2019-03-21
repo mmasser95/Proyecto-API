@@ -87,6 +87,7 @@ function verificarAdminLogueado(req, res) {
     .then((result) => {
       return res.status(200).send({
         token: servicios.createAdminToken({ _id: result.sub }),
+        tipo: result.tipo,
         message: `Token renovado`,
       });
     })

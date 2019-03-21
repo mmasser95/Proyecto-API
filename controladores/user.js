@@ -218,6 +218,7 @@ function verificarUserLogueado(req, res) {
         .status(200)
         .send({
           token: servicios.createToken({ _id: result.sub }),
+          tipo: result.tipo,
           message: `Token renovado`,
         });
     })
