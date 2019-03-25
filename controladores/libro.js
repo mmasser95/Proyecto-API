@@ -13,6 +13,18 @@ function getLibros(req, res) {
   });
 }
 
+function getLibrosAutor(req, res) {
+  let autorId = req.params.autorId;
+  Libro.find({ Autor: autorId }, (err, libros) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!libros)
+      return res
+        .status(404)
+        .send({ message: `No se han encontrado resultados` });
+    return res.status(200).send({ libros });
+  });
+}
+
 function getLibro(req, res) {
   let libroId = req.params.libroId;
   console.log(`GET /api/libro/${libroId}`);
@@ -116,6 +128,7 @@ function deleteLibro(req, res) {
 
 module.exports = {
   getLibros,
+  getLibrosAutor,
   getLibro,
   getLibroTitulo,
   getLibroEditorial,

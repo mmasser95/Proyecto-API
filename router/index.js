@@ -18,6 +18,7 @@ const peticionCtrl = require('../controladores/peticiones');
 //Libro
 router.get('/libro', libroCtrl.getLibros);
 router.get('/libro/:libroId', libroCtrl.getLibro);
+router.get('/libro/autor/:autorId', libroCtrl.getLibrosAutor);
 router.get(
   '/libro/buscar/:buscar',
   libroCtrl.getLibroISBN,
@@ -102,6 +103,11 @@ router.get('/peticion', auth.isAuth, peticionCtrl.getPeticiones);
 router.get('/peticion/:peticionId', auth.isAuth, peticionCtrl.getPeticion);
 router.post('/peticion', auth.isAuth, peticionCtrl.postPeticion);
 router.put('/peticion/:peticionId', auth.isAuth, peticionCtrl.putPeticion);
-router.delete('/peticion/:peticionId', auth.isAuth, auth.isAdmin, peticionCtrl.deletePeticion);
+router.delete(
+  '/peticion/:peticionId',
+  auth.isAuth,
+  auth.isAdmin,
+  peticionCtrl.deletePeticion
+);
 
 module.exports = router;
