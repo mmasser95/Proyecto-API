@@ -1,4 +1,4 @@
-const Peticion = require('../modelos/peticiones');
+const Peticion = require('../modelos/peticiona');
 
 function getPeticiones(req, res) {
   Peticion.find({}, (err, peticiones) => {
@@ -26,18 +26,9 @@ function getPeticion(req, res) {
 function postPeticion(req, res) {
   let post = req.body;
   let peticion = new Peticion({
-    ISBN: post.ISBN,
-    Titulo: post.Titulo,
-    Edicion: post.Edicion,
-    Editorial: post.Editorial,
-    Autor: post.Autor,
-    Genero: post.Genero,
-    Tapa: post.Tapa,
-    Sinopsis: post.Sinopsis,
-    Paginas: post.Paginas,
-    Fecha_Publicacion: post.Fecha_Publicacion,
-    Fecha_Edicion: post.Fecha_Edicion,
-    Estado: post.Estado,
+    Nombre: post.Nombre,
+    Apellidos: post.Apellidos,
+    Fecha_nacimiento: post.Fecha_nacimiento,
     User: post.User,
   });
   peticion.save((err, saved) => {
@@ -62,7 +53,6 @@ function deletePeticion(req, res) {
     return res.status(200).send({ message: `Borrado` });
   });
 }
-
 module.exports = {
   getPeticiones,
   getPeticion,

@@ -13,7 +13,8 @@ const adminCtrl = require('../controladores/admin');
 const userCtrl = require('../controladores/user');
 const ofertaCtrl = require('../controladores/oferta');
 const pedidoCtrl = require('../controladores/pedido');
-const peticionCtrl = require('../controladores/peticiones');
+const peticionlCtrl = require('../controladores/peticionl');
+const peticionaCtrl = require('../controladores/peticiona');
 
 //Libro
 router.get('/libro', libroCtrl.getLibros);
@@ -99,15 +100,42 @@ router.put('/pedido/:pedidoId', pedidoCtrl.putPedido);
 router.delete('/pedido/:pedidoId', pedidoCtrl.deletePedido);
 
 //Peticion
-router.get('/peticion', auth.isAuth, peticionCtrl.getPeticiones);
-router.get('/peticion/:peticionId', auth.isAuth, peticionCtrl.getPeticion);
-router.post('/peticion', auth.isAuth, peticionCtrl.postPeticion);
-router.put('/peticion/:peticionId', auth.isAuth, peticionCtrl.putPeticion);
+router.get('/peticion/libro', auth.isAuth, peticionlCtrl.getPeticiones);
+router.get(
+  '/peticion/libro/:peticionId',
+  auth.isAuth,
+  peticionlCtrl.getPeticion
+);
+router.post('/peticion/libro', auth.isAuth, peticionlCtrl.postPeticion);
+router.put(
+  '/peticion/libro/:peticionId',
+  auth.isAuth,
+  peticionlCtrl.putPeticion
+);
 router.delete(
-  '/peticion/:peticionId',
+  '/peticion/libro/:peticionId',
   auth.isAuth,
   auth.isAdmin,
-  peticionCtrl.deletePeticion
+  peticionlCtrl.deletePeticion
+);
+
+//Peticion Autor
+router.get('/peticion/autor', auth.isAuth, peticionaCtrl.getPeticiones);
+router.get(
+  '/peticion/autor/:peticionId',
+  auth.isAuth,
+  peticionaCtrl.getPeticion
+);
+router.post('/peticion/autor', auth.isAuth, peticionaCtrl.postPeticion);
+router.put(
+  '/peticion/autor/:peticionId',
+  auth.isAuth,
+  peticionaCtrl.putPeticion
+);
+router.delete(
+  '/peticion/autor/:peticionId',
+  auth.isAuth,
+  peticionaCtrl.deletePeticion
 );
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const peticionSchema = Schema({
+const peticionlSchema = Schema({
   ISBN: Number,
   Titulo: String,
   Edicion: Number,
@@ -17,4 +17,4 @@ const peticionSchema = Schema({
   User: Schema.Types.ObjectId,
 });
 
-module.exports = mongoose.model('Peticion', peticionSchema);
+module.exports = mongoose.model('Peticionl', peticionlSchema);
