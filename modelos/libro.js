@@ -15,6 +15,7 @@ const libroSchema = Schema({
   Autor: Schema.Types.ObjectId,
   Fecha_Publicacion: Schema.Types.Date,
   Fecha_Edicion: Schema.Types.Date,
+  Imagen:String,
 });
 
 module.exports = mongoose.model('Libro', libroSchema);

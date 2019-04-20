@@ -1,4 +1,6 @@
 const Libro = require('../modelos/libro');
+const path = require('path');
+const servicios = require('../servicios');
 
 function getLibros(req, res) {
   console.log('GET /api/libro');
@@ -80,6 +82,20 @@ function getLibroEditorial(req, res) {
   );
 }
 
+async function postLibroImagen(req,res){
+  const libroId = req.params.libroId;
+  const imagePath = path.join(__dirname, '/public/images');
+  const fileUpload = new servicios.Resize(imagePath);
+  if(!req.file){
+    res.status(401).send({message:`Error no se ha subido el archivo`});
+  }
+  const filename = await fileUpload.save(req.file.buffer);
+  Libro.findOneAndUpdate({_id:libroId}, {Imagen: path.join(imagePath, `${filename}`)}, (err,res)=>{
+    if(err)return res.status(500).send({message:`Error ${err}`});
+    return res.status(200).send({message: `Se ha creado subido correctamente ${filename}`});
+  })
+}
+
 function postLibro(req, res) {
   let post = req.body;
   console.log('POST /api/libro');
@@ -134,6 +150,7 @@ module.exports = {
   getLibroEditorial,
   getLibroISBN,
   postLibro,
+  postLibroImagen,
   putLibro,
   deleteLibro,
 };

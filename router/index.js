@@ -6,6 +6,9 @@ const router = express.Router();
 
 const auth = require('../middlewares/auth');
 
+//Instancia para subir imagenes
+const imatge = require('../middlewares/images');
+
 //Instancias de los Controladores
 const libroCtrl = require('../controladores/libro');
 const autorCtrl = require('../controladores/autor');
@@ -27,6 +30,7 @@ router.get(
   libroCtrl.getLibroEditorial
 );
 router.post('/libro', auth.isAuth, auth.isAdmin, libroCtrl.postLibro);
+router.post('/libro/imatge/:libroId', auth.isAuth, auth.isAdmin, imatge.single('image'), libroCtrl.postLibroImagen )
 router.put('/libro/:libroId', auth.isAuth, auth.isAdmin, libroCtrl.putLibro);
 router.delete(
   '/libro/:libroId',
@@ -130,6 +134,7 @@ router.post('/peticion/autor', auth.isAuth, peticionaCtrl.postPeticion);
 router.put(
   '/peticion/autor/:peticionId',
   auth.isAuth,
+  auth.isAdmin,
   peticionaCtrl.putPeticion
 );
 router.delete(
