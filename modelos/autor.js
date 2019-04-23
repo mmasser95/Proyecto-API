@@ -8,6 +8,7 @@ const autorSchema = Schema({
   Apellidos: String,
   Fecha_nacimiento: Schema.Types.Date,
   Bio: String,
+  Imagen: String,
 });
 
 module.exports = mongoose.model('Autor', autorSchema);
