@@ -84,16 +84,16 @@ function getLibroEditorial(req, res) {
 
 async function postLibroImagen(req,res){
   const libroId = req.params.libroId;
-  const imagePath = path.join(__dirname, '/public/images');
+  const imagePath = path.join('/public/images');
   const fileUpload = new servicios.Resize(imagePath);
   if(!req.file){
     res.status(401).send({message:`Error no se ha subido el archivo`});
   }
   const filename = await fileUpload.save(req.file.buffer)
     .then((res) => {
-      Libro.findOneAndUpdate({_id:libroId}, {Imagen: path.join(imagePath, `${filename}`)}, (err,res)=>{
+      Libro.findOneAndUpdate({_id:libroId}, {Imagen: path.join(imagePath, `${res}`)}, (err,res1)=>{
         if(err)return res.status(500).send({message:`Error ${err}`});
-        return res.status(200).send({message: `Se ha creado subido correctamente ${filename}`});
+        return res.status(200).send({message: `Se ha creado subido correctamente ${res}`});
       })    
     }).catch((err) => {
       throw err;
