@@ -30,7 +30,7 @@ router.get(
   libroCtrl.getLibroEditorial
 );
 router.post('/libro', auth.isAuth, auth.isAdmin, libroCtrl.postLibro);
-router.post('/libro/imatge/:libroId', auth.isAuth, auth.isAdmin, imatge.single('image'), libroCtrl.postLibroImagen )
+router.put('/libro/imagen/:libroId', auth.isAuth, auth.isAdmin, imatge.single('image'), libroCtrl.postLibroImagen )
 router.put('/libro/:libroId', auth.isAuth, auth.isAdmin, libroCtrl.putLibro);
 router.delete(
   '/libro/:libroId',

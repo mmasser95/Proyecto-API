@@ -89,11 +89,16 @@ async function postLibroImagen(req,res){
   if(!req.file){
     res.status(401).send({message:`Error no se ha subido el archivo`});
   }
-  const filename = await fileUpload.save(req.file.buffer);
-  Libro.findOneAndUpdate({_id:libroId}, {Imagen: path.join(imagePath, `${filename}`)}, (err,res)=>{
-    if(err)return res.status(500).send({message:`Error ${err}`});
-    return res.status(200).send({message: `Se ha creado subido correctamente ${filename}`});
-  })
+  const filename = await fileUpload.save(req.file.buffer)
+    .then((res) => {
+      Libro.findOneAndUpdate({_id:libroId}, {Imagen: path.join(imagePath, `${filename}`)}, (err,res)=>{
+        if(err)return res.status(500).send({message:`Error ${err}`});
+        return res.status(200).send({message: `Se ha creado subido correctamente ${filename}`});
+      })    
+    }).catch((err) => {
+      throw err;
+    });;
+  
 }
 
 function postLibro(req, res) {
