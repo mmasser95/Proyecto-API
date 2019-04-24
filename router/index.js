@@ -30,7 +30,12 @@ router.get(
   libroCtrl.getLibroEditorial
 );
 router.post('/libro', auth.isAuth, auth.isAdmin, libroCtrl.postLibro);
-router.put('/libro/imagen/:libroId', auth.isAuth, auth.isAdmin, imatge.single('image'), libroCtrl.postLibroImagen )
+router.put(
+  '/libro/imagen/:libroId',
+  auth.isAuth,
+  imatge.single('image'),
+  libroCtrl.postLibroImagen
+);
 router.put('/libro/:libroId', auth.isAuth, auth.isAdmin, libroCtrl.putLibro);
 router.delete(
   '/libro/:libroId',
@@ -49,6 +54,12 @@ router.get(
 );
 router.post('/autor', auth.isAuth, auth.isAdmin, autorCtrl.postAutor);
 router.put('/autor/:autorId', auth.isAuth, auth.isAdmin, autorCtrl.putAutor);
+router.put(
+  '/autor/imagen/:autorId',
+  auth.isAuth,
+  imatge.single('image'),
+  autorCtrl.putAutorImagen
+);
 router.delete(
   '/autor/:autorId',
   auth.isAuth,
@@ -93,6 +104,12 @@ router.get('/oferta/:ofertaId', auth.isAuth, ofertaCtrl.getOferta);
 router.get('/oferta/libro/:libroId', auth.isAuth, ofertaCtrl.getOfertasLibro);
 router.post('/oferta', auth.isAuth, ofertaCtrl.postOferta);
 router.put('/oferta/:ofertaId', auth.isAuth, ofertaCtrl.putOferta);
+router.put(
+  '/oferta/imagen/:ofertaId',
+  auth.isAuth,
+  imatge('image'),
+  ofertaCtrl.putOfertaImagen
+);
 router.delete('/oferta/:ofertaId', auth.isAuth, ofertaCtrl.deleteOferta);
 
 //Pedido
@@ -111,6 +128,12 @@ router.get(
   peticionlCtrl.getPeticion
 );
 router.post('/peticion/libro', auth.isAuth, peticionlCtrl.postPeticion);
+router.put(
+  '/peticion/libro/a/:peticionId',
+  auth.isAuth,
+  auth.isAdmin,
+  peticionlCtrl.aceptarPeticion
+);
 router.put(
   '/peticion/libro/:peticionId',
   auth.isAuth,
@@ -131,6 +154,12 @@ router.get(
   peticionaCtrl.getPeticion
 );
 router.post('/peticion/autor', auth.isAuth, peticionaCtrl.postPeticion);
+router.put(
+  '/peticion/autor/a/:peticionId',
+  auth.isAuth,
+  auth.isAdmin,
+  peticionaCtrl.aceptarPeticion
+);
 router.put(
   '/peticion/autor/:peticionId',
   auth.isAuth,

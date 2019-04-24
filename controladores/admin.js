@@ -85,7 +85,8 @@ function verificarAdminLogueado(req, res) {
   servicios
     .decodeToken(post.token)
     .then((result) => {
-      if(result.tipo!='admin') res.status(403).send({message:`No autorizado`})
+      if (result.tipo != 'admin')
+        res.status(403).send({ message: `No autorizado` });
       return res.status(200).send({
         token: servicios.createAdminToken({ _id: result.sub }),
         tipo: result.tipo,

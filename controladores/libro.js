@@ -82,24 +82,31 @@ function getLibroEditorial(req, res) {
   );
 }
 
-async function postLibroImagen(req,res){
+async function postLibroImagen(req, res) {
   const libroId = req.params.libroId;
   const imagePath = path.join('/public/images/libro');
   const fileUpload = new servicios.Resize(imagePath);
-  if(!req.file){
-    res.status(401).send({message:`Error no se ha subido el archivo`});
+  if (!req.file) {
+    res.status(401).send({ message: `Error no se ha subido el archivo` });
   }
-  const filename = await fileUpload.save(req.file.buffer)
+  const filename = await fileUpload
+    .save(req.file.buffer)
     .then((res1) => {
-      Libro.findOneAndUpdate({_id:libroId}, {Imagen: path.join(imagePath, `${res1}`)}, (err,res2)=>{
-        if(err)return res.status(500).send({message:`Error ${err}`});
-        return res.status(200).send({message: `Se ha creado subido correctamente ${res1}`});
-      })    
-    }).catch((err) => {
+      Libro.findOneAndUpdate(
+        { _id: libroId },
+        { Imagen: path.join(imagePath, `${res1}`) },
+        (err, res2) => {
+          if (err) return res.status(500).send({ message: `Error ${err}` });
+          return res
+            .status(200)
+            .send({ message: `Se ha creado subido correctamente ${res1}` });
+        }
+      );
+    })
+    .catch((err) => {
       console.log('err :', err);
-      return res.status(500).send({message:`Error ${err}`})
-    });;
-  
+      return res.status(500).send({ message: `Error ${err}` });
+    });
 }
 
 function postLibro(req, res) {

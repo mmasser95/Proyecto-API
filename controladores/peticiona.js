@@ -1,4 +1,5 @@
 const Peticion = require('../modelos/peticiona');
+const Autor = require('../modelos/autor');
 
 function getPeticiones(req, res) {
   Peticion.find({}, (err, peticiones) => {
@@ -37,6 +38,22 @@ function postPeticion(req, res) {
   });
 }
 
+function aceptarPeticion(req, res) {
+  const peticionId = req.params.peticionId;
+  Peticion.findOne({ _id: peticionId }, (err, peticion) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!peticion)
+      return res
+        .status(404)
+        .send({ message: `No se ha encontrado la petición` });
+    let nautor = new Autor(peticion);
+    nautor.save((err, saved) => {
+      if (err) return res.status(500).send({ message: `Error ${err}` });
+      return res.status(200).send({ saved });
+    });
+  });
+}
+
 function putPeticion(req, res) {
   let peticionId = req.params.peticionId;
   let update = req.body;
@@ -57,6 +74,7 @@ module.exports = {
   getPeticiones,
   getPeticion,
   postPeticion,
+  aceptarPeticion,
   putPeticion,
   deletePeticion,
 };

@@ -213,14 +213,12 @@ function verificarUserLogueado(req, res) {
   servicios
     .decodeToken(post.token)
     .then((result) => {
-      console.log(result)
-      return res
-        .status(200)
-        .send({
-          token: servicios.createToken({ _id: result.sub }),
-          tipo: result.tipo,
-          message: `Token renovado`,
-        });
+      console.log(result);
+      return res.status(200).send({
+        token: servicios.createToken({ _id: result.sub }),
+        tipo: result.tipo,
+        message: `Token renovado`,
+      });
     })
     .catch((err) => {
       return res.status(err.status).send(err.message);

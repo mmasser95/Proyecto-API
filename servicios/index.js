@@ -6,7 +6,6 @@ const sharp = require('sharp');
 const uuidv4 = require('uuid/v4');
 const path = require('path');
 
-
 function createToken(user) {
   const payload = {
     sub: user._id,
@@ -74,27 +73,27 @@ function sendEmail(to, sub, message) {
   });
 }
 
-class Resize{
-  constructor(folder){
-    this.folder=folder;
+class Resize {
+  constructor(folder) {
+    this.folder = folder;
   }
-  async save(buffer){
-    const filename=Resize.filename();
+  async save(buffer) {
+    const filename = Resize.filename();
     const filepath = this.filepath(filename);
 
     await sharp(buffer)
-      .resize(600, 600,{
+      .resize(600, 600, {
         fit: sharp.fit.inside,
-        withoutEnlargement:true,
+        withoutEnlargement: true,
       })
       .toFile(filepath);
-    
+
     return filename;
   }
-  static filename(){
-    return`${uuidv4()}.png`;
+  static filename() {
+    return `${uuidv4()}.png`;
   }
-  filepath(filename){
+  filepath(filename) {
     return path.resolve(`${this.folder}/${filename}`);
   }
 }

@@ -63,22 +63,30 @@ function postAutor(req, res) {
   });
 }
 
-async function putAutorImagen(req,res){
+async function putAutorImagen(req, res) {
   const autorId = req.params.autorId;
   const imagePath = path.join('/public/images/autor');
   const fileUpload = new servicios.Resize(imagePath);
-  if(!req.file){
-    res.status(401).send({message:`Error no se ha subido el archivo`});
+  if (!req.file) {
+    res.status(401).send({ message: `Error no se ha subido el archivo` });
   }
-  await fileUpload.save(req.file.buffer)
+  await fileUpload
+    .save(req.file.buffer)
     .then((res1) => {
-      Autor.findOneAndUpdate({_id:autorId}, {Imagen: imagePath+res1},(err,res2)=>{
-        if(err)return res.status(500).send({message:`Error ${err}`});
-        return res.status(200).send({message:`Se ha subido la imagen correctamente`});
-      })
-    }).catch((err) => {
+      Autor.findOneAndUpdate(
+        { _id: autorId },
+        { Imagen: imagePath + res1 },
+        (err, res2) => {
+          if (err) return res.status(500).send({ message: `Error ${err}` });
+          return res
+            .status(200)
+            .send({ message: `Se ha subido la imagen correctamente` });
+        }
+      );
+    })
+    .catch((err) => {
       console.log('err :', err);
-      return res.status(500).send({message:`Error: ${err}`})
+      return res.status(500).send({ message: `Error: ${err}` });
     });
 }
 
