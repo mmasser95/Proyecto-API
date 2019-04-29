@@ -13,6 +13,7 @@ const imatge = require('../middlewares/images');
 const libroCtrl = require('../controladores/libro');
 const autorCtrl = require('../controladores/autor');
 const adminCtrl = require('../controladores/admin');
+const bibliotecaCtrl = require('../controladores/biblioteca');
 const userCtrl = require('../controladores/user');
 const ofertaCtrl = require('../controladores/oferta');
 const pedidoCtrl = require('../controladores/pedido');
@@ -170,6 +171,26 @@ router.delete(
   '/peticion/autor/:peticionId',
   auth.isAuth,
   peticionaCtrl.deletePeticion
+);
+
+//Biblioteca
+
+router.get('/biblioteca/:userId', auth.isAuth, bibliotecaCtrl.getMyBiblioteca);
+router.put(
+  '/biblioteca/:userId',
+  auth.isAuth,
+  bibliotecaCtrl.actualizarBiblioteca
+);
+router.delete(
+  '/biblioteca/:userId',
+  auth.isAuth,
+  bibliotecaCtrl.limpiarBiblioteca
+);
+router.purge(
+  '/biblioteca/:userId',
+  auth.isAuth,
+  auth.isAdmin,
+  bibliotecaCtrl.eliminarBiblioteca
 );
 
 module.exports = router;
