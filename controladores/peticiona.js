@@ -2,7 +2,7 @@ const Peticion = require('../modelos/peticiona');
 const Autor = require('../modelos/autor');
 
 function getPeticiones(req, res) {
-  Peticion.find({}, (err, peticiones) => {
+  Peticion.find({Estado:0}, (err, peticiones) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!peticiones.length)
       return res
