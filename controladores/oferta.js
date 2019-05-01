@@ -12,6 +12,18 @@ function getOfertas(req, res) {
   });
 }
 
+function getMyOfertas(req, res) {
+  let userId = res.locals.payload.sub;
+  Oferta.find({ id_user: userId }, (err, ofertas) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!ofertas.length)
+      return res
+        .status(404)
+        .send({ message: 'No se han encontrado resultados' });
+    return res.status(200).send({ ofertas });
+  });
+}
+
 function getOferta(req, res) {
   let ofertaId = req.params.ofertaId;
   console.log(`/api/oferta/${ofertaId}`);
@@ -49,21 +61,29 @@ function postOferta(req, res) {
   });
 }
 
-async function putOfertaImagen(req,res){
-  const ofertaId=req.params.ofertaId;
-  const imagePath=path.join('/public/images/oferta');
-  const fileUpload=new servicios.Resize(imagePath);
-  if(!req.file){
-    res.status(401).send({message:`Error no se ha subido el archivo`});
+async function putOfertaImagen(req, res) {
+  const ofertaId = req.params.ofertaId;
+  const imagePath = path.join('/public/images/oferta');
+  const fileUpload = new servicios.Resize(imagePath);
+  if (!req.file) {
+    res.status(401).send({ message: `Error no se ha subido el archivo` });
   }
-  await fileUpload.save(req.file.buffer)
+  await fileUpload
+    .save(req.file.buffer)
     .then((res1) => {
-      Oferta.findOneAndUpdate({_id:ofertaId}, {Imagen: imagePath+res1}, (err, res)=>{
-        if(err)return res.status(500).send({message:`Error ${err}`});
-        return res.status(200).send({message:`Se ha subido la imagen correctamente`});
-      })
-    }).catch((err) => {
-      return res.status(500).send({message:`Error: ${err}`})
+      Oferta.findOneAndUpdate(
+        { _id: ofertaId },
+        { Imagen: imagePath + res1 },
+        (err, res) => {
+          if (err) return res.status(500).send({ message: `Error ${err}` });
+          return res
+            .status(200)
+            .send({ message: `Se ha subido la imagen correctamente` });
+        }
+      );
+    })
+    .catch((err) => {
+      return res.status(500).send({ message: `Error: ${err}` });
     });
 }
 

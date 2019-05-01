@@ -40,7 +40,7 @@ function postPedido(req, res) {
   console.log(post);
   let pedido = new Pedido({
     total: post.total,
-    idUser: post.idUser,
+    idUser: res.locals.payload.sub,
     direccion: post.direccion,
     items: post.items,
   });

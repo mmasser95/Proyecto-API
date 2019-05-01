@@ -84,8 +84,15 @@ router.post('/admin/signin', adminCtrl.signIn);
 
 //User
 router.get('/user', auth.isAuth, auth.isAdmin, userCtrl.getUsers);
-router.get('/user/:userId', auth.isAuth, userCtrl.getUser);
-router.get('/user/:userId/direccion', auth.isAuth, userCtrl.getDireccionesUser);
+router.get('/user/:userId', auth.isAuth, auth.isAdmin, userCtrl.getUser);
+router.get('/user/my', auth.isAuth, userCtrl.getMyUser);
+router.get(
+  '/user/:userId/direccion',
+  auth.isAuth,
+  auth.isAdmin,
+  userCtrl.getDireccionesUser
+);
+router.get('/user/my/direccion', auth.isAuth, userCtrl.getMyDirecciones);
 router.post('/user', userCtrl.postUser);
 router.post('/user/signin', userCtrl.signIn);
 router.post('/user/direccion', auth.isAuth, userCtrl.postDireccionUser);
@@ -128,6 +135,7 @@ router.get(
   auth.isAuth,
   peticionlCtrl.getPeticion
 );
+router.get('/peticion/libro/my', auth.isAuth, peticionlCtrl.getMyPeticiones);
 router.post('/peticion/libro', auth.isAuth, peticionlCtrl.postPeticion);
 router.put(
   '/peticion/libro/a/:peticionId',
@@ -160,6 +168,7 @@ router.get(
   auth.isAuth,
   peticionaCtrl.getPeticion
 );
+router.get('/peticion/autor/my', auth.isAuth, peticionaCtrl.getMyPeticiones);
 router.post('/peticion/autor', auth.isAuth, peticionaCtrl.postPeticion);
 router.put(
   '/peticion/autor/a/:peticionId',
@@ -187,19 +196,19 @@ router.delete(
 
 //Biblioteca
 
-router.get('/biblioteca/:userId', auth.isAuth, bibliotecaCtrl.getMyBiblioteca);
+router.get('/biblioteca', auth.isAuth, bibliotecaCtrl.getMyBiblioteca);
 router.put(
-  '/biblioteca/:userId',
+  '/biblioteca',
   auth.isAuth,
   bibliotecaCtrl.actualizarBiblioteca
 );
 router.delete(
-  '/biblioteca/:userId',
+  '/biblioteca',
   auth.isAuth,
   bibliotecaCtrl.limpiarBiblioteca
 );
 router.purge(
-  '/biblioteca/:userId',
+  '/biblioteca',
   auth.isAuth,
   auth.isAdmin,
   bibliotecaCtrl.eliminarBiblioteca

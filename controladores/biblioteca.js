@@ -1,7 +1,7 @@
 const Biblioteca = require('../modelos/biblioteca');
 
 function getMyBiblioteca(req, res) {
-  const userId = req.params.userId;
+  const userId = res.locals.payload.sub;
   Biblioteca.findOne({ userId }, (err, biblioteca) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!biblioteca)
@@ -13,18 +13,22 @@ function getMyBiblioteca(req, res) {
 }
 
 function actualizarBiblioteca(req, res) {
-  const userId = req.params.userId;
-  const uBiblioteca = req.body;
-  Biblioteca.findOneAndUpdate({ userId }, uBiblioteca, (err, biblioteca) => {
+  const userId = res.locals.payload.sub;
+  const uBiblioteca = req.body.biblioteca;
+  Biblioteca.findOne({ userId }, (err, biblioteca) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    return res
-      .status(200)
-      .send({ message: 'Se ha actualizado la biblioteca', biblioteca });
+    if (!biblioteca) biblioteca = new Biblioteca();
+    biblioteca.userId = userId;
+    biblioteca.myBiblio = uBiblioteca;
+    biblioteca.save((err, saved) => {
+      if (err) return res.status(500).send({ message: `Error ${err}` });
+      return res.status(200).send({ saved });
+    });
   });
 }
 
 function eliminarBiblioteca(req, res) {
-  const userId = req.params.userId;
+  const userId = res.locals.payload.sub;
   Biblioteca.findOneAndDelete({ userId }, (err, biblioteca) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     return res
@@ -51,9 +55,9 @@ function limpiarBiblioteca(req, res) {
   });
 }
 
-module.exports={
+module.exports = {
   getMyBiblioteca,
   actualizarBiblioteca,
   eliminarBiblioteca,
   limpiarBiblioteca,
-}
+};

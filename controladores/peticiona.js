@@ -2,7 +2,19 @@ const Peticion = require('../modelos/peticiona');
 const Autor = require('../modelos/autor');
 
 function getPeticiones(req, res) {
-  Peticion.find({Estado:0}, (err, peticiones) => {
+  Peticion.find({ Estado: 0 }, (err, peticiones) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!peticiones.length)
+      return res
+        .status(404)
+        .send({ message: `No se han encontrado resultados` });
+    return res.status(200).send({ peticiones });
+  });
+}
+
+function getMyPeticiones(req, res) {
+  let userId = res.locals.payload.sub;
+  Peticion.find({ User: userId }, (err, peticiones) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!peticiones.length)
       return res
@@ -92,6 +104,7 @@ function deletePeticion(req, res) {
 }
 module.exports = {
   getPeticiones,
+  getMyPeticiones,
   getPeticion,
   postPeticion,
   aceptarPeticion,

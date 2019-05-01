@@ -32,8 +32,6 @@ userSchema.pre('save', function(next) {
 });
 userSchema.pre('update', function(next) {
   let user = this;
-
-  console.log(user);
   if (!user.isModified('pass')) return next();
   bcrypt.genSalt(10, (err, salt) => {
     if (err) return next();

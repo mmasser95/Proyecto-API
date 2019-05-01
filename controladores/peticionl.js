@@ -2,7 +2,19 @@ const Peticion = require('../modelos/peticionl');
 const Libro = require('../modelos/libro');
 
 function getPeticiones(req, res) {
-  Peticion.find({Estado:0}, (err, peticiones) => {
+  Peticion.find({ Estado: 0 }, (err, peticiones) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!peticiones.length)
+      return res
+        .status(404)
+        .send({ message: `No se han encontrado resultados` });
+    return res.status(200).send({ peticiones });
+  });
+}
+
+function getMyPeticiones(req, res) {
+  let userId = res.locals.payload.sub;
+  Peticion.find({ User: userId }, (err, peticiones) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!peticiones.length)
       return res
@@ -67,17 +79,20 @@ function aceptarPeticion(req, res) {
   });
 }
 
-function denegarPeticion(req,res) {
-  const peticionId=req.params.peticionId
-  Peticion.findOne({_id:peticionId},(err,peticion)=>{
-    if(err) return res.status(500).send({message:`Error ${err}`});
-    if(!peticion) return res.status(404).send({message:`No se han encontrado resultados`});
-    peticion.Estado=1;
-    peticion.save((err,saved)=>{
-      if(err)return res.status(500).send({message:`Error ${err}`})
-      return res.status(200).send({saved});
-    })
-  })
+function denegarPeticion(req, res) {
+  const peticionId = req.params.peticionId;
+  Peticion.findOne({ _id: peticionId }, (err, peticion) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!peticion)
+      return res
+        .status(404)
+        .send({ message: `No se han encontrado resultados` });
+    peticion.Estado = 1;
+    peticion.save((err, saved) => {
+      if (err) return res.status(500).send({ message: `Error ${err}` });
+      return res.status(200).send({ saved });
+    });
+  });
 }
 
 function putPeticion(req, res) {
@@ -99,6 +114,7 @@ function deletePeticion(req, res) {
 
 module.exports = {
   getPeticiones,
+  getMyPeticiones,
   getPeticion,
   postPeticion,
   aceptarPeticion,

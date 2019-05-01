@@ -16,9 +16,29 @@ function getUsers(req, res) {
   });
 }
 
+function getMyUser(req, res) {
+  let userId = res.locals.payload.sub;
+  User.findOne({ _id: userId }, (err, user) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!user)
+      return res.status(404).send({ message: `No existe este usuario` });
+    return res.status(200).send({ user });
+  });
+}
+
+function getMyDirecciones(req,res){
+  let userId = res.locals.payload.sub;
+  User.findOne({ _id: userId }, (err, user) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!user) return res.status(404).send({ message: `No existe el usuario` });
+    if (!user.direccion)
+      return res.status(404).send({ message: `No existen direcciones` });
+    return res.status(200).send({ direccion: user.direccion });
+  });
+}
+
 function getDireccionesUser(req, res) {
   let userId = req.params.userId;
-  console.log(`GET /api/user/${userId}/direccion`);
   User.findOne({ _id: userId }, (err, user) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!user) return res.status(404).send({ message: `No existe el usuario` });
@@ -228,11 +248,13 @@ function verificarUserLogueado(req, res) {
 module.exports = {
   getUsers,
   getUser,
+  getMyUser,
   postUser,
   putUser,
   putUserEmail,
   deleteUser,
   signIn,
+  getMyDirecciones,
   getDireccionesUser,
   postDireccionUser,
   putDireccionUser,
