@@ -56,11 +56,28 @@ function aceptarPeticion(req, res) {
         .status(404)
         .send({ message: `No se ha encontrado la peticion` });
     let nlibro = new Libro(peticion);
-    nlibro.save((err, saved) => {
+    peticion.Estado = 2;
+    peticion.save((err, saved) => {
       if (err) return res.status(500).send({ message: `Error ${err}` });
-      return res.status(200).send({ saved });
+      nlibro.save((err, saved) => {
+        if (err) return res.status(500).send({ message: `Error ${err}` });
+        return res.status(200).send({ saved });
+      });
     });
   });
+}
+
+function denegarPeticion(req,res) {
+  const peticionId=req.params.peticionId
+  Peticion.findOne({_id:peticionId},(err,peticion)=>{
+    if(err) return res.status(500).send({message:`Error ${err}`});
+    if(!peticion) return res.status(404).send({message:`No se han encontrado resultados`});
+    peticion.Estado=1;
+    peticion.save((err,saved)=>{
+      if(err)return res.status(500).send({message:`Error ${err}`})
+      return res.status(200).send({saved});
+    })
+  })
 }
 
 function putPeticion(req, res) {
@@ -85,6 +102,7 @@ module.exports = {
   getPeticion,
   postPeticion,
   aceptarPeticion,
+  denegarPeticion,
   putPeticion,
   deletePeticion,
 };

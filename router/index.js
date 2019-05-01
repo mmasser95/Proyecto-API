@@ -136,6 +136,12 @@ router.put(
   peticionlCtrl.aceptarPeticion
 );
 router.put(
+  '/peticion/libro/d/:peticionId',
+  auth.isAuth,
+  auth.isAdmin,
+  peticionlCtrl.denegarPeticion
+);
+router.put(
   '/peticion/libro/:peticionId',
   auth.isAuth,
   peticionlCtrl.putPeticion
@@ -160,6 +166,12 @@ router.put(
   auth.isAuth,
   auth.isAdmin,
   peticionaCtrl.aceptarPeticion
+);
+router.put(
+  '/peticion/autor/d/:peticionId',
+  auth.isAuth,
+  auth.isAdmin,
+  peticionaCtrl.denegarPeticion
 );
 router.put(
   '/peticion/autor/:peticionId',
