@@ -110,6 +110,7 @@ function deleteOferta(req, res) {
 module.exports = {
   getOfertas,
   getOferta,
+  getMyOfertas,
   getOfertasLibro,
   postOferta,
   putOferta,

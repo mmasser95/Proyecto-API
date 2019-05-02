@@ -11,6 +11,18 @@ function getPedidos(req, res) {
   });
 }
 
+function getMyPedidos(req, res) {
+  const userId = res.locals.payload.sub;
+  Pedido.findOne({ idUser: userId }, (err, pedidos) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!pedidos.length)
+      return res
+        .status(404)
+        .send({ message: `No se han encontrado resultados` });
+    return res.status(200).send({ pedidos });
+  });
+}
+
 function getPedido(req, res) {
   let pedidoId = req.params.pedidoId;
   Pedido.findOne({ _id: pedidoId }, (err, pedido) => {
@@ -71,6 +83,7 @@ function deletePedido(req, res) {
 module.exports = {
   getPedidos,
   getPedido,
+  getMyPedidos,
   getPedidosUser,
   postPedido,
   putPedido,

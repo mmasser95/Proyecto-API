@@ -17,7 +17,8 @@ function getUsers(req, res) {
 }
 
 function getMyUser(req, res) {
-  //let userId = res.locals.payload.sub;
+  console.log(res.locals)
+  let userId = res.locals.payload.sub;
   User.findOne({ _id: userId }, (err, user) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!user)

@@ -85,14 +85,14 @@ router.post('/admin/signin', adminCtrl.signIn);
 //User
 router.get('/user', auth.isAuth, auth.isAdmin, userCtrl.getUsers);
 router.get('/user/:userId', auth.isAuth, auth.isAdmin, userCtrl.getUser);
-router.get('/user/my', auth.isAuth, userCtrl.getMyUser);
+router.get('/my/user', auth.isAuth, userCtrl.getMyUser);
 router.get(
   '/user/:userId/direccion',
   auth.isAuth,
   auth.isAdmin,
   userCtrl.getDireccionesUser
 );
-router.get('/user/my/direccion', auth.isAuth, userCtrl.getMyDirecciones);
+router.get('/my/user/direccion', auth.isAuth, userCtrl.getMyDirecciones);
 router.post('/user', userCtrl.postUser);
 router.post('/user/signin', userCtrl.signIn);
 router.post('/user/direccion', auth.isAuth, userCtrl.postDireccionUser);
@@ -109,6 +109,7 @@ router.delete('/user/:userId', auth.isAuth, userCtrl.deleteUser);
 //Oferta
 router.get('/oferta', auth.isAuth, ofertaCtrl.getOfertas);
 router.get('/oferta/:ofertaId', auth.isAuth, ofertaCtrl.getOferta);
+router.get('/my/oferta', auth.isAuth, ofertaCtrl.getMyOfertas);
 router.get('/oferta/libro/:libroId', auth.isAuth, ofertaCtrl.getOfertasLibro);
 router.post('/oferta', auth.isAuth, ofertaCtrl.postOferta);
 router.put('/oferta/:ofertaId', auth.isAuth, ofertaCtrl.putOferta);
@@ -123,6 +124,7 @@ router.delete('/oferta/:ofertaId', auth.isAuth, ofertaCtrl.deleteOferta);
 //Pedido
 router.get('/pedido', auth.isAuth, pedidoCtrl.getPedidos);
 router.get('/pedido/:pedidoId', auth.isAuth, pedidoCtrl.getPedido);
+router.get('/my/pedido', auth.isAuth, pedidoCtrl.getMyPedidos);
 router.get('/pedido/user/:userId', auth.isAuth, pedidoCtrl.getPedidosUser);
 router.post('/pedido', auth.isAuth, pedidoCtrl.postPedido);
 router.put('/pedido/:pedidoId', pedidoCtrl.putPedido);
@@ -135,7 +137,7 @@ router.get(
   auth.isAuth,
   peticionlCtrl.getPeticion
 );
-router.get('/peticion/libro/my', auth.isAuth, peticionlCtrl.getMyPeticiones);
+router.get('/my/peticion/libro', auth.isAuth, peticionlCtrl.getMyPeticiones);
 router.post('/peticion/libro', auth.isAuth, peticionlCtrl.postPeticion);
 router.put(
   '/peticion/libro/a/:peticionId',
@@ -168,7 +170,7 @@ router.get(
   auth.isAuth,
   peticionaCtrl.getPeticion
 );
-router.get('/peticion/autor/my', auth.isAuth, peticionaCtrl.getMyPeticiones);
+router.get('/my/peticion/autor', auth.isAuth, peticionaCtrl.getMyPeticiones);
 router.post('/peticion/autor', auth.isAuth, peticionaCtrl.postPeticion);
 router.put(
   '/peticion/autor/a/:peticionId',
@@ -197,16 +199,8 @@ router.delete(
 //Biblioteca
 
 router.get('/biblioteca', auth.isAuth, bibliotecaCtrl.getMyBiblioteca);
-router.put(
-  '/biblioteca',
-  auth.isAuth,
-  bibliotecaCtrl.actualizarBiblioteca
-);
-router.delete(
-  '/biblioteca',
-  auth.isAuth,
-  bibliotecaCtrl.limpiarBiblioteca
-);
+router.put('/biblioteca', auth.isAuth, bibliotecaCtrl.actualizarBiblioteca);
+router.delete('/biblioteca', auth.isAuth, bibliotecaCtrl.limpiarBiblioteca);
 router.purge(
   '/biblioteca',
   auth.isAuth,
