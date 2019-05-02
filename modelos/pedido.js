@@ -4,16 +4,14 @@ const Schema = mongoose.Schema;
 let pedidoSchema = Schema({
   items: [
     {
-      libroId: { type: Schema.Types.ObjectId, required: true },
-      cantidad: Number,
-      precioUnidad: Number,
-      precioTotal: Number,
+      ofertaId: { type: Schema.Types.ObjectId, required: true },
+      precio: { type: Schema.Types.Decimal128, required: true },
     },
   ],
   total: Number,
   idUser: { type: Schema.Types.ObjectId, required: true },
   direccion: { type: Schema.Types.ObjectId, required: true },
-  pagado: Boolean,
+  estado: Number,
 });
 
 module.exports = mongoose.model('Pedido', pedidoSchema);

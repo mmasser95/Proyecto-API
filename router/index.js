@@ -139,13 +139,13 @@ router.get(
 );
 router.get('/my/peticion/libro', auth.isAuth, peticionlCtrl.getMyPeticiones);
 router.post('/peticion/libro', auth.isAuth, peticionlCtrl.postPeticion);
-router.put(
+router.get(
   '/peticion/libro/a/:peticionId',
   auth.isAuth,
   auth.isAdmin,
   peticionlCtrl.aceptarPeticion
 );
-router.put(
+router.get(
   '/peticion/libro/d/:peticionId',
   auth.isAuth,
   auth.isAdmin,
@@ -172,13 +172,13 @@ router.get(
 );
 router.get('/my/peticion/autor', auth.isAuth, peticionaCtrl.getMyPeticiones);
 router.post('/peticion/autor', auth.isAuth, peticionaCtrl.postPeticion);
-router.put(
+router.get(
   '/peticion/autor/a/:peticionId',
   auth.isAuth,
   auth.isAdmin,
   peticionaCtrl.aceptarPeticion
 );
-router.put(
+router.get(
   '/peticion/autor/d/:peticionId',
   auth.isAuth,
   auth.isAdmin,

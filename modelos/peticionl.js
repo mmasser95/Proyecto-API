@@ -13,7 +13,7 @@ const peticionlSchema = Schema({
   Autor: Schema.Types.ObjectId,
   Fecha_Publicacion: Schema.Types.Date,
   Fecha_Edicion: Schema.Types.Date,
-  Estado: Boolean,
+  Estado: Number,
   User: Schema.Types.ObjectId,
 });
 

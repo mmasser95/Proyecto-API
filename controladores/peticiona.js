@@ -27,7 +27,7 @@ function getMyPeticiones(req, res) {
 function getPeticion(req, res) {
   let peticionId = req.params.peticionId;
   Peticion.findOne({ _id: peticionId }, (err, peticion) => {
-    if (err) return res.status(509).send({ message: `Error ${err}` });
+    if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!peticion)
       return res
         .status(404)
@@ -43,6 +43,7 @@ function postPeticion(req, res) {
     Apellidos: post.Apellidos,
     Fecha_nacimiento: post.Fecha_nacimiento,
     User: post.User,
+    Estado:post.Estado,
   });
   peticion.save((err, saved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
@@ -51,19 +52,25 @@ function postPeticion(req, res) {
 }
 
 function aceptarPeticion(req, res) {
-  const peticionId = req.params.peticionId;
+  let peticionId = req.params.peticionId;
   Peticion.findOne({ _id: peticionId }, (err, peticion) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!peticion)
       return res
         .status(404)
-        .send({ message: `No se ha encontrado la petición` });
-    let nautor = new Autor(peticion);
+        .send({ message: `No se han encontrado resultados` });
+    
+    let nautor = new Autor({
+      Nombre:peticion.Nombre,
+      Apellidos:peticion.Apellidos,
+      Fecha_nacimiento:peticion.Fecha_nacimiento,
+    });
     peticion.Estado = 2;
+    
     peticion.save((err, saved1) => {
       if (err) return res.status(500).send({ message: `Error ${err}` });
-      nautor.save((err, saved2) => {
-        if (err) return res.status(500).send({ message: `Error ${err}` });
+      nautor.save((err2, saved2) => {
+        if (err2) return res.status(500).send({ message: `Error ${err2}` });
         return res.status(200).send({ saved1, saved2 });
       });
     });

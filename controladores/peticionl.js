@@ -67,7 +67,19 @@ function aceptarPeticion(req, res) {
       return res
         .status(404)
         .send({ message: `No se ha encontrado la peticion` });
-    let nlibro = new Libro(peticion);
+    let nlibro = new Libro({
+      ISBN: peticion.ISBN,
+      Titulo: peticion.Titulo,
+      Edicion: peticion.Edicion,
+      Editorial: peticion.Editorial,
+      Autor: peticion.Autor,
+      Genero: peticion.Genero,
+      Tapa: peticion.Tapa,
+      Sinopsis: peticion.Sinopsis,
+      Paginas: peticion.Paginas,
+      Fecha_Publicacion: peticion.Fecha_Publicacion,
+      Fecha_Edicion: peticion.Fecha_Edicion,
+    });
     peticion.Estado = 2;
     peticion.save((err, saved) => {
       if (err) return res.status(500).send({ message: `Error ${err}` });
