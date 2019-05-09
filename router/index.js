@@ -197,8 +197,19 @@ router.delete(
 );
 
 //Biblioteca
-
 router.get('/biblioteca', auth.isAuth, bibliotecaCtrl.getMyBiblioteca);
+router.get(
+  '/biblioteca/libro/:libroId',
+  auth.isAuth,
+  bibliotecaCtrl.putLibro,
+  bibliotecaCtrl.crearBiblioteca,
+  bibliotecaCtrl.putLibro
+);
+router.delete(
+  '/biblioteca/libro/:libroId',
+  auth.isAuth,
+  bibliotecaCtrl.deleteLibro
+);
 router.put('/biblioteca', auth.isAuth, bibliotecaCtrl.actualizarBiblioteca);
 router.delete('/biblioteca', auth.isAuth, bibliotecaCtrl.limpiarBiblioteca);
 router.purge(

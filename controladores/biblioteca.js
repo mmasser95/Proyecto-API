@@ -1,5 +1,49 @@
 const Biblioteca = require('../modelos/biblioteca');
-
+function putLibro(req, res) {
+  const libroId = req.params.libroId;
+  const userId = res.locals.payload.sub;
+  Biblioteca.findOne({ userId }, (err, biblioteca) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!biblioteca)
+      return next();
+    biblioteca.myBiblio.push({
+      libroId,
+    });
+    biblioteca.save((err, saved) => {
+      if (err) return res.status(500).send({ message: `Error ${err}` });
+      return res.status(200).send({ message: 'Guardado', saved });
+    });
+  });
+}
+function deleteLibro(req, res) {
+  const libroId = req.params.libroId;
+  const userId = res.locals.payload.sub;
+  Biblioteca.findOne({ userId }, (err, biblioteca) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!biblioteca) return res.status(404).send({ message: `Error ${err}` });
+    const l = biblioteca.myBiblio
+      .map((e) => {
+        return e._id;
+      })
+      .indexOf(libroId);
+    biblioteca.myBiblio.libroId(l).remove();
+    biblioteca.save((err, saved) => {
+      if (err) return res.status(500).send({ message: `Error ${err}` });
+      return res.status(200).send({ message: `Borrado`, saved });
+    });
+  });
+}
+function crearBiblioteca(req, res) {
+  const userId = res.locals.payload.sub;
+  const biblioteca = new Biblioteca({
+    userId,
+    myBiblio: {},
+  });
+  biblioteca.save((err, saved) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    return next();
+  });
+}
 function getMyBiblioteca(req, res) {
   const userId = res.locals.payload.sub;
   Biblioteca.findOne({ userId }, (err, biblioteca) => {
@@ -56,6 +100,9 @@ function limpiarBiblioteca(req, res) {
 }
 
 module.exports = {
+  putLibro,
+  deleteLibro,
+  crearBiblioteca,
   getMyBiblioteca,
   actualizarBiblioteca,
   eliminarBiblioteca,
