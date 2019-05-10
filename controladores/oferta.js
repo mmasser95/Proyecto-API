@@ -54,8 +54,9 @@ function postOferta(req, res) {
     importe: post.importe,
     moneda: post.moneda,
     estado: post.estado,
+    defectos: post.defectos,
   });
-  oferta.save((err, ofertas) => {
+  oferta.save((err, saved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     return res.status(200).send({ ofertas });
   });

@@ -6,6 +6,7 @@ let ofertaSchema = Schema({
   id_libro: { type: Schema.Types.ObjectId, required: true },
   importe: { type: Schema.Types.Decimal128, required: true },
   moneda: { type: String, required: true, enum: ['EUR', 'USD'] },
+  defectos: { type: String },
   estado: { type: String, required: true },
   Imagen: String,
 });
