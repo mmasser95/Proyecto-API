@@ -3,7 +3,6 @@ const path = require('path');
 const servicios = require('../servicios');
 
 function getLibros(req, res) {
-  console.log('GET /api/libro');
   Libro.find({}, (err, libros) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!libros)
@@ -29,7 +28,6 @@ function getLibrosAutor(req, res) {
 
 function getLibro(req, res) {
   let libroId = req.params.libroId;
-  console.log(`GET /api/libro/${libroId}`);
   Libro.findOne({ _id: libroId }, (err, libro) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!libro)
@@ -45,7 +43,6 @@ function getLibroISBN(req, res, next) {
   if (isNaN(libroISBN)) {
     return next();
   }
-  console.log(`GET /api/libro/buscar/${libroISBN}`);
   Libro.find({ ISBN: libroISBN }, (err, libro) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (libro.length == 0) return next();
@@ -55,7 +52,6 @@ function getLibroISBN(req, res, next) {
 
 function getLibroTitulo(req, res, next) {
   let libroTitulo = req.params.buscar;
-  console.log(`GET /api/libro/buscar/${libroTitulo}`);
   Libro.find(
     { Titulo: new RegExp(`^.*${libroTitulo}.*$`, 'img') },
     (err, libroo) => {
@@ -68,7 +64,6 @@ function getLibroTitulo(req, res, next) {
 
 function getLibroEditorial(req, res) {
   let libroEditorial = req.params.buscar;
-  console.log(`GET /api/libro/buscar/${libroEditorial}`);
   Libro.find(
     { Editorial: new RegExp(`^.*${libroEditorial}.*$`, 'img') },
     (err, libro) => {
@@ -111,7 +106,6 @@ async function postLibroImagen(req, res) {
 
 function postLibro(req, res) {
   let post = req.body;
-  console.log('POST /api/libro');
   console.log(post);
   let libro = new Libro({
     ISBN: post.ISBN,
@@ -136,9 +130,8 @@ function postLibro(req, res) {
 function putLibro(req, res) {
   let libroId = req.params.libroId;
   let update = req.body;
-  console.log(`PUT /api/libro/${libroId}`);
   console.log(update);
-  Libro.findByIdAndUpdate(libroId, update, (err, libro_updated) => {
+  Libro.findOneAndUpdate({_id:libroId}, update, (err, libro_updated) => {
     if (err)
       return res.status(500).send({ message: `Error al guardar ${err}` });
     return res.status(200).send({ libro_updated });
@@ -147,12 +140,19 @@ function putLibro(req, res) {
 
 function deleteLibro(req, res) {
   let libroId = req.params.libroId;
-  console.log(`DELETE /api/libro/${libroId}`);
-  Libro.findByIdAndRemove(libroId, (err, libro_deleted) => {
+  Libro.findOneAndRemove({_id:libroId}, (err, libro_deleted) => {
     if (err)
       return res.status(500).send({ message: `Error al guardar ${err}` });
     return res.status(200).send({ libro_deleted });
   });
+}
+
+function deleteLibroAutor(req, res) {
+  let autorId = req.params.autorId;
+  Libro.deleteMany({ Autor: autorId }, (err, deleted) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` })
+    return res.status(200).send({ deleted, message: 'Borrado' })
+  })
 }
 
 module.exports = {
@@ -166,4 +166,5 @@ module.exports = {
   postLibroImagen,
   putLibro,
   deleteLibro,
+  deleteLibroAutor,
 };

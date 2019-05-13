@@ -3,7 +3,6 @@ const path = require('path');
 const servicios = require('../servicios');
 
 function getAutores(req, res) {
-  console.log('GET /api/autor');
   Autor.find({}, (err, autores) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!autores.length)
@@ -16,9 +15,8 @@ function getAutores(req, res) {
 }
 
 function getAutor(req, res) {
-  let autorId = req.params.autorId;
   console.log(`GET /api/autor/${autorId}`);
-  Autor.findById(autorId, (err, autor) => {
+  Autor.findOne({_id:autorId}, (err, autor) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!autor) return res.status(404).send({ message: `No existe el autor` });
     return res.status(200).send({ autor });
@@ -49,8 +47,6 @@ function buscarAutorApellido(req, res) {
 
 function postAutor(req, res) {
   let post = req.body;
-  console.log('POST /api/autor');
-  console.log(post);
   let autor = new Autor({
     Nombre: post.Nombre,
     Apellidos: post.Apellidos,
@@ -93,9 +89,7 @@ async function putAutorImagen(req, res) {
 function putAutor(req, res) {
   let autorId = req.params.autorId;
   let update = req.body;
-  console.log(`PUT /api/autor/${autorId}`);
-  console.log(update);
-  Autor.findByIdAndUpdate(autorId, update, (err, autorupdated) => {
+  Autor.findOneAndUpdate({_id:autorId}, update, (err, autorupdated) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     return res.status(200).send({ autorupdated });
   });
@@ -103,8 +97,7 @@ function putAutor(req, res) {
 
 function deleteAutor(req, res) {
   let autorId = req.params.deleteAutor;
-  console.log(`DELETE /api/autor/${autorId}`);
-  Autor.findByIdAndDelete(autorId, (err, res) => {
+  Autor.findOneAndDelete({_id:autorId}, (err, res) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     return res.status(200).send({ message: 'Borrado' });
   });
