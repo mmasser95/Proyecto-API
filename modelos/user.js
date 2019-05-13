@@ -7,6 +7,7 @@ let userSchema = Schema({
   username: String,
   pass: { type: String, select: false },
   lastlogin: Date,
+  telf: { type: String },
   direccion: [
     {
       calle: String,

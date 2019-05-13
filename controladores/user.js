@@ -67,6 +67,7 @@ function postUser(req, res) {
     email: post.email,
     username: post.username,
     pass: post.pass,
+    telf:post.telf,
   });
   user.save((err, usersaved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
