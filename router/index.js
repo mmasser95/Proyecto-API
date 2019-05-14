@@ -87,6 +87,11 @@ router.get('/user', auth.isAuth, auth.isAdmin, userCtrl.getUsers);
 router.get('/user/:userId', auth.isAuth, auth.isAdmin, userCtrl.getUser);
 router.get('/my/user', auth.isAuth, userCtrl.getMyUser);
 router.get(
+  '/my/user/direccion/:direccionId',
+  auth.isAuth,
+  userCtrl.getMyDireccion
+);
+router.get(
   '/user/:userId/direccion',
   auth.isAuth,
   auth.isAdmin,
@@ -103,6 +108,11 @@ router.put(
   '/user/:userId/direccion/:direccionId',
   auth.isAuth,
   userCtrl.putDireccionUser
+);
+router.put(
+  '/my/user/direccion/:direccionId',
+  auth.isAuth,
+  userCtrl.modificarDireccionUser
 );
 router.delete('/user/:userId', auth.isAuth, userCtrl.deleteUser);
 

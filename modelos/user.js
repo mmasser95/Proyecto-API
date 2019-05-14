@@ -8,6 +8,9 @@ let userSchema = Schema({
   pass: { type: String, select: false },
   lastlogin: Date,
   telf: { type: String },
+  nombre: { type: String },
+  apellidos: { type: String },
+  fecha_nacimiento: { type: Date },
   direccion: [
     {
       calle: String,
@@ -15,6 +18,9 @@ let userSchema = Schema({
       puerta: String,
       escalera: String,
       piso: String,
+      estado: String,
+      CP: Number,
+      poblacion: String,
     },
   ],
 });

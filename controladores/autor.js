@@ -15,8 +15,8 @@ function getAutores(req, res) {
 }
 
 function getAutor(req, res) {
-  console.log(`GET /api/autor/${autorId}`);
-  Autor.findOne({_id:autorId}, (err, autor) => {
+  let autorId = req.params.autorId;
+  Autor.findOne({ _id: autorId }, (err, autor) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!autor) return res.status(404).send({ message: `No existe el autor` });
     return res.status(200).send({ autor });
@@ -89,7 +89,7 @@ async function putAutorImagen(req, res) {
 function putAutor(req, res) {
   let autorId = req.params.autorId;
   let update = req.body;
-  Autor.findOneAndUpdate({_id:autorId}, update, (err, autorupdated) => {
+  Autor.findOneAndUpdate({ _id: autorId }, update, (err, autorupdated) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     return res.status(200).send({ autorupdated });
   });
@@ -97,7 +97,7 @@ function putAutor(req, res) {
 
 function deleteAutor(req, res) {
   let autorId = req.params.deleteAutor;
-  Autor.findOneAndDelete({_id:autorId}, (err, res) => {
+  Autor.findOneAndDelete({ _id: autorId }, (err, res) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     return res.status(200).send({ message: 'Borrado' });
   });

@@ -17,7 +17,7 @@ function getUsers(req, res) {
 }
 
 function getMyUser(req, res) {
-  console.log(res.locals)
+  console.log(res.locals);
   let userId = res.locals.payload.sub;
   User.findOne({ _id: userId }, (err, user) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
@@ -27,11 +27,11 @@ function getMyUser(req, res) {
   });
 }
 
-function getMyDirecciones(req,res){
+function getMyDirecciones(req, res) {
   let userId = res.locals.payload.sub;
   User.findOne({ _id: userId }, (err, user) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    if (!user) return res.status(404).send({ message: `No existe el usuario` });
+    if (!user) return res.status(400).send({ message: `No existe el usuario` });
     if (!user.direccion)
       return res.status(404).send({ message: `No existen direcciones` });
     return res.status(200).send({ direccion: user.direccion });
@@ -42,10 +42,32 @@ function getDireccionesUser(req, res) {
   let userId = req.params.userId;
   User.findOne({ _id: userId }, (err, user) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    if (!user) return res.status(404).send({ message: `No existe el usuario` });
+    if (!user) return res.status(400).send({ message: `No existe el usuario` });
     if (!user.direccion)
       return res.status(404).send({ message: `No existen direcciones` });
     return res.status(200).send({ direccion: user.direccion });
+  });
+}
+
+function getMyDireccion(req, res) {
+  let userId = res.locals.payload.sub;
+  let direccionId = req.params.direccionId;
+  User.findOne({ _id: userId }, (err, user) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!user)
+      return res
+        .status(400)
+        .send({ message: `No se ha encontrado el usuario` });
+    let dirIndex = JSON.parse(JSON.stringify(user.direccion))
+      .map((e) => {
+        return e._id;
+      })
+      .indexOf(direccionId);
+    if (!dirIndex)
+      return res
+        .status(404)
+        .send({ message: `No se ha encontrado la direccion` });
+    return res.status(200).send({ direccion: user.direccion[dirIndex] });
   });
 }
 
@@ -66,8 +88,11 @@ function postUser(req, res) {
   let user = new User({
     email: post.email,
     username: post.username,
+    nombre: post.nombre,
+    apellidos: post.apellidos,
+    fecha_nacimiento: post.fecha_nacimiento,
     pass: post.pass,
-    telf:post.telf,
+    telf: post.telf,
   });
   user.save((err, usersaved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
@@ -145,7 +170,32 @@ function putDireccionUser(req, res) {
     });
   });
 }
-
+function modificarDireccionUser(req, res) {
+  let userId = res.locals.payload.sub;
+  let direccionId = req.params.direccionId;
+  let direccion = req.body;
+  User.findOne({ _id: userId }, (err, user) => {
+    if (err) return res.status(500).send({ message: `Error ${err}` });
+    if (!user) return res.status(400).send({ message: `Error` });
+    let dirIndex = JSON.parse(JSON.stringify(user.direccion))
+      .map((e) => {
+        return e._id;
+      })
+      .indexOf(direccionId);
+    let updireccion = user.direccion[dirIndex];
+    if (!updireccion)
+      return res
+        .status(404)
+        .send({ message: `No se ha encontrado la direccion` });
+    updireccion = direccion;
+    user.direccion[dirIndex].remove();
+    user.direccion.push(updireccion);
+    user.save((err, saved) => {
+      if (err) return res.status({ message: `Error ${err}` });
+      return res.status(200).send({ saved });
+    });
+  });
+}
 function putUser(req, res) {
   let userId = req.params.userId;
   console.log(`PUT /api/user/${userId}`);
@@ -251,6 +301,7 @@ module.exports = {
   getUsers,
   getUser,
   getMyUser,
+  getMyDireccion,
   postUser,
   putUser,
   putUserEmail,
@@ -260,6 +311,7 @@ module.exports = {
   getDireccionesUser,
   postDireccionUser,
   putDireccionUser,
+  modificarDireccionUser,
   deleteDireccionUser,
   verificarUserLogueado,
 };

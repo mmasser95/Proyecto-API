@@ -4,8 +4,7 @@ function putLibro(req, res) {
   const userId = res.locals.payload.sub;
   Biblioteca.findOne({ userId }, (err, biblioteca) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    if (!biblioteca)
-      return next();
+    if (!biblioteca) return next();
     biblioteca.myBiblio.push({
       libroId,
     });
