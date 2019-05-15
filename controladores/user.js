@@ -142,6 +142,23 @@ function postDireccionUser(req, res) {
   });
 }
 
+function putMyUser(req,res){
+  let userId=res.locals.payload.sub;
+  let update = req.body;
+  User.findOne({_id:userId},(err,user)=>{
+    if(err)return res.status(500).send({message:`Error: ${err}`})
+    if(!user)return res.status(400).send({message: `Error`})
+    if(user.direccion)update.direccion=user.direccion;
+    user=update;
+    console.log('update :', update);
+    User.findOneAndUpdate({_id:userId},update,(err,usuario)=>{
+      if(err)return res.status(500).send({message:`Error ${err}`})
+      if(!user)return res.status(400).send({message:'Error'})
+      return res.status(200).send({usuario})
+    })
+  })
+}
+
 function putDireccionUser(req, res) {
   let userId = req.params.userId;
   let direccionId = req.params.direccionId;
@@ -311,6 +328,7 @@ module.exports = {
   getDireccionesUser,
   postDireccionUser,
   putDireccionUser,
+  putMyUser,
   modificarDireccionUser,
   deleteDireccionUser,
   verificarUserLogueado,

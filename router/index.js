@@ -109,6 +109,7 @@ router.put(
   auth.isAuth,
   userCtrl.putDireccionUser
 );
+router.put('/my/user',auth.isAuth, userCtrl.putMyUser)
 router.put(
   '/my/user/direccion/:direccionId',
   auth.isAuth,
