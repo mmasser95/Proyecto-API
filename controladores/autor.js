@@ -61,7 +61,7 @@ function postAutor(req, res) {
 
 async function putAutorImagen(req, res) {
   const autorId = req.params.autorId;
-  const imagePath = path.join('/public/images/autor');
+  const imagePath = path.join('/mnt/img/autor');
   const fileUpload = new servicios.Resize(imagePath);
   if (!req.file) {
     res.status(401).send({ message: `Error no se ha subido el archivo` });

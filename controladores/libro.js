@@ -79,7 +79,7 @@ function getLibroEditorial(req, res) {
 
 async function postLibroImagen(req, res) {
   const libroId = req.params.libroId;
-  const imagePath = path.join('/public/images/libro');
+  const imagePath = path.join('/mnt/img/libro');
   const fileUpload = new servicios.Resize(imagePath);
   if (!req.file) {
     res.status(401).send({ message: `Error no se ha subido el archivo` });

@@ -58,13 +58,13 @@ function postOferta(req, res) {
   });
   oferta.save((err, saved) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
-    return res.status(200).send({ ofertas });
+    return res.status(200).send({ saved });
   });
 }
 
 async function putOfertaImagen(req, res) {
   const ofertaId = req.params.ofertaId;
-  const imagePath = path.join('/public/images/oferta');
+  const imagePath = path.join('/mnt/img/oferta');
   const fileUpload = new servicios.Resize(imagePath);
   if (!req.file) {
     res.status(401).send({ message: `Error no se ha subido el archivo` });
