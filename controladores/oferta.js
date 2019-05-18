@@ -64,17 +64,17 @@ function postOferta(req, res) {
 
 async function putOfertaImagen(req, res) {
   const ofertaId = req.params.ofertaId;
-  const imagePath = path.join('/mnt/img/oferta');
+  const imagePath = path.join('/mnt/img/oferta/');
   const fileUpload = new servicios.Resize(imagePath);
   if (!req.file) {
-    res.status(401).send({ message: `Error no se ha subido el archivo` });
+    return res.status(400).send({ message: `Error no se ha subido el archivo` });
   }
   await fileUpload
     .save(req.file.buffer)
-    .then((res) => {
+    .then((res1) => {
       Oferta.findOneAndUpdate(
         { _id: ofertaId },
-        { Imagen: imagePath + res1 },
+        { Imagen: 'oferta/' + res1 },
         (err, update) => {
           if (err) return res.status(500).send({ message: `Error ${err}` });
           return res
