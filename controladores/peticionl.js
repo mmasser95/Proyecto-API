@@ -1,6 +1,7 @@
 const Peticion = require('../modelos/peticionl');
 const Libro = require('../modelos/libro');
-
+const servicios = require('../servicios');
+const path = require('path');
 function getPeticiones(req, res) {
   Peticion.find({ Estado: 0 }, (err, peticiones) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
@@ -117,7 +118,7 @@ function putPeticion(req, res) {
   });
 }
 
-function putPeticionImagen(req,res){
+async function putPeticionImagen(req,res){
   const peticionId = req.params.peticionId;
   const imagePath = path.join('/mnt/img/libro/');
   const fileUpload = new servicios.Resize(imagePath);
@@ -127,7 +128,7 @@ function putPeticionImagen(req,res){
   await fileUpload
     .save(req.file.buffer)
     .then((res1) => {
-      Oferta.findOneAndUpdate(
+      Peticion.findOneAndUpdate(
         { _id: peticionId },
         { Imagen: 'libro/' + res1 },
         (err, update) => {

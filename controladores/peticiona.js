@@ -105,7 +105,7 @@ function putPeticion(req, res) {
   });
 }
 
-function putPeticionImagen(req,res){
+async function putPeticionImagen(req,res){
   const peticionId = req.params.peticionId;
   const imagePath = path.join('/mnt/img/autor/');
   const fileUpload = new servicios.Resize(imagePath);
@@ -115,8 +115,8 @@ function putPeticionImagen(req,res){
   await fileUpload
     .save(req.file.buffer)
     .then((res1) => {
-      Oferta.findOneAndUpdate(
-        { _id: ofertaId },
+      Peticion.findOneAndUpdate(
+        { _id: peticionId },
         { Imagen: 'autor/' + res1 },
         (err, update) => {
           if (err) return res.status(500).send({ message: `Error ${err}` });
