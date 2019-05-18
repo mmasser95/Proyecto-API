@@ -71,11 +71,11 @@ async function putOfertaImagen(req, res) {
   }
   await fileUpload
     .save(req.file.buffer)
-    .then((res1) => {
+    .then((res) => {
       Oferta.findOneAndUpdate(
         { _id: ofertaId },
         { Imagen: imagePath + res1 },
-        (err, res) => {
+        (err, update) => {
           if (err) return res.status(500).send({ message: `Error ${err}` });
           return res
             .status(200)
