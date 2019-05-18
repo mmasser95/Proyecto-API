@@ -70,6 +70,7 @@ async function putAutorImagen(req, res) {
     .save(req.file.buffer)
     .then((res1) => {
       let n = res1;
+      console.log('res1 :', res1);
       Autor.findOneAndUpdate(
         { _id: autorId },
         { Imagen: imagePath + n },

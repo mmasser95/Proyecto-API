@@ -79,6 +79,7 @@ function aceptarPeticion(req, res) {
       Paginas: peticion.Paginas,
       Fecha_Publicacion: peticion.Fecha_Publicacion,
       Fecha_Edicion: peticion.Fecha_Edicion,
+      Imagen:peticion.Imagen,
     });
     peticion.Estado = 2;
     peticion.save((err, saved) => {
@@ -116,6 +117,32 @@ function putPeticion(req, res) {
   });
 }
 
+function putPeticionImagen(req,res){
+  const peticionId = req.params.peticionId;
+  const imagePath = path.join('/mnt/img/libro/');
+  const fileUpload = new servicios.Resize(imagePath);
+  if (!req.file) {
+    return res.status(400).send({ message: `Error no se ha subido el archivo` });
+  }
+  await fileUpload
+    .save(req.file.buffer)
+    .then((res1) => {
+      Oferta.findOneAndUpdate(
+        { _id: peticionId },
+        { Imagen: 'libro/' + res1 },
+        (err, update) => {
+          if (err) return res.status(500).send({ message: `Error ${err}` });
+          return res
+            .status(200)
+            .send({ message: `Se ha subido la imagen correctamente` });
+        }
+      );
+    })
+    .catch((err) => {
+      return res.status(500).send({ message: `Error: ${err}` });
+    });
+}
+
 function deletePeticion(req, res) {
   let peticionId = req.params.peticionId;
   Peticion.findOneAndDelete({ _id: peticionId }, (err, deleted) => {
@@ -132,5 +159,6 @@ module.exports = {
   aceptarPeticion,
   denegarPeticion,
   putPeticion,
+  putPeticionImagen,
   deletePeticion,
 };

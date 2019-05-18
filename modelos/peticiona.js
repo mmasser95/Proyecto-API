@@ -7,6 +7,7 @@ const peticionaSchema = Schema({
   Fecha_nacimiento: Schema.Types.Date,
   Bio: String,
   Estado:Number,
+  Imagen:String,
   User: Schema.Types.ObjectId,
 });
 

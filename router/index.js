@@ -167,6 +167,12 @@ router.put(
   auth.isAuth,
   peticionlCtrl.putPeticion
 );
+router.put(
+  '/peticion/libro/imagen/:peticionId',
+  auth.isAuth,
+  imatgectrl.single('image'),
+  peticionlCtrl.putPeticionImagen
+);
 router.delete(
   '/peticion/libro/:peticionId',
   auth.isAuth,
@@ -198,8 +204,13 @@ router.get(
 router.put(
   '/peticion/autor/:peticionId',
   auth.isAuth,
-  auth.isAdmin,
   peticionaCtrl.putPeticion
+);
+router.put(
+  '/peticion/autor/imagen/:peticionId',
+  auth.isAuth,
+  imatgectrl.single('image'),
+  peticionaCtrl.putPeticionImagen
 );
 router.delete(
   '/peticion/autor/:peticionId',

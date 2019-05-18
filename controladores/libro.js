@@ -82,7 +82,7 @@ async function postLibroImagen(req, res) {
   const imagePath = path.join('/mnt/img/libro');
   const fileUpload = new servicios.Resize(imagePath);
   if (!req.file) {
-    res.status(401).send({ message: `Error no se ha subido el archivo` });
+    return res.status(400).send({ message: `Error no se ha subido el archivo` });
   }
   const filename = await fileUpload
     .save(req.file.buffer)

@@ -21,6 +21,7 @@ let userSchema = Schema({
       estado: String,
       CP: Number,
       poblacion: String,
+      provincia:String,
     },
   ],
 });

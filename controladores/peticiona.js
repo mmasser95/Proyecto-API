@@ -1,6 +1,7 @@
 const Peticion = require('../modelos/peticiona');
 const Autor = require('../modelos/autor');
-
+const path = require('path');
+const servicios = require('../servicios');
 function getPeticiones(req, res) {
   Peticion.find({ Estado: 0 }, (err, peticiones) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
@@ -64,6 +65,8 @@ function aceptarPeticion(req, res) {
       Nombre:peticion.Nombre,
       Apellidos:peticion.Apellidos,
       Fecha_nacimiento:peticion.Fecha_nacimiento,
+      Bio:peticion.Bio,
+      Imagen:peticion.Imagen,
     });
     peticion.Estado = 2;
     
@@ -102,6 +105,32 @@ function putPeticion(req, res) {
   });
 }
 
+function putPeticionImagen(req,res){
+  const peticionId = req.params.peticionId;
+  const imagePath = path.join('/mnt/img/autor/');
+  const fileUpload = new servicios.Resize(imagePath);
+  if (!req.file) {
+    return res.status(400).send({ message: `Error no se ha subido el archivo` });
+  }
+  await fileUpload
+    .save(req.file.buffer)
+    .then((res1) => {
+      Oferta.findOneAndUpdate(
+        { _id: ofertaId },
+        { Imagen: 'autor/' + res1 },
+        (err, update) => {
+          if (err) return res.status(500).send({ message: `Error ${err}` });
+          return res
+            .status(200)
+            .send({ message: `Se ha subido la imagen correctamente` });
+        }
+      );
+    })
+    .catch((err) => {
+      return res.status(500).send({ message: `Error: ${err}` });
+    });
+}
+
 function deletePeticion(req, res) {
   let peticionId = req.params.peticionId;
   Peticion.findOneAndDelete({ _id: peticionId }, (err, deleted) => {
@@ -117,5 +146,6 @@ module.exports = {
   aceptarPeticion,
   denegarPeticion,
   putPeticion,
+  putPeticionImagen,
   deletePeticion,
 };

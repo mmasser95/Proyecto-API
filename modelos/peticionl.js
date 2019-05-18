@@ -15,6 +15,7 @@ const peticionlSchema = Schema({
   Fecha_Edicion: Schema.Types.Date,
   Estado: Number,
   User: Schema.Types.ObjectId,
+  Imagen:String,
 });
 
 module.exports = mongoose.model('Peticionl', peticionlSchema);
