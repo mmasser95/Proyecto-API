@@ -52,6 +52,7 @@ function getDireccionesUser(req, res) {
 function getMyDireccion(req, res) {
   let userId = res.locals.payload.sub;
   let direccionId = req.params.direccionId;
+
   User.findOne({ _id: userId }, (err, user) => {
     if (err) return res.status(500).send({ message: `Error ${err}` });
     if (!user)
@@ -63,7 +64,7 @@ function getMyDireccion(req, res) {
         return e._id;
       })
       .indexOf(direccionId);
-    if (!dirIndex)
+    if (dirIndex==-1)
       return res
         .status(404)
         .send({ message: `No se ha encontrado la direccion` });
