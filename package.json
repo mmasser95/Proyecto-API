@@ -12,7 +12,7 @@
     "body-parser": "1.18.3",
     "cors": "2.8.5",
     "ejs": "^2.6.1",
-    "express": "4.16.4",
+    "express": "4.20.0",
     "fs": "0.0.1-security",
     "jwt-simple": "0.5.5",
     "moment": "2.24.0",
